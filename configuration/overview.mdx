@@ -75,3 +75,15 @@ passive = true
 ```
 
 All fields have sensible defaults — an empty config file works fine.
+
+## Changing Settings at Runtime
+
+Use `/set` to view and change settings without editing the file:
+
+```
+/set ui.theme catppuccin-glass
+/set ui.show_join_part false
+/set notifications.highlight_bell false
+```
+
+Changes are saved to `config.toml` immediately. See [Settings Command](/commands/settings) for details.

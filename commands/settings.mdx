@@ -1,0 +1,90 @@
+---
+title: Settings
+description: "View and change settings from within Flume"
+---
+
+The `/set` command lets you view and change `config.toml` settings without editing the file manually.
+
+## List All Settings
+
+```
+/set
+```
+
+Shows every setting currently in your config file.
+
+## View a Section
+
+```
+/set ui
+/set notifications
+/set general
+```
+
+Shows all settings in a section.
+
+## View a Single Setting
+
+```
+/set ui.theme
+/set general.default_nick
+```
+
+Shows the current value, or "(using default)" if not explicitly set.
+
+## Change a Setting
+
+```
+/set <section.key> <value>
+```
+
+Sets the value and saves to disk immediately.
+
+```
+/set ui.theme catppuccin-glass
+/set ui.show_join_part false
+/set ui.show_hostmask_on_join true
+/set general.default_nick mynick
+/set general.quit_message "Leaving!"
+/set notifications.highlight_bell false
+/set dcc.enabled true
+/set llm.provider anthropic
+/set llm.model claude-sonnet-4-20250514
+```
+
+Values are auto-detected as boolean, integer, float, or string.
+
+## Available Sections
+
+| Section | Key Examples |
+|---------|-------------|
+| `general` | `default_nick`, `quit_message`, `timestamp_format`, `scrollback_lines` |
+| `ui` | `theme`, `show_join_part`, `show_hostmask_on_join` |
+| `ui.keybindings` | `mode` (emacs or vi) |
+| `logging` | `enabled`, `format` (plain or json), `rotate` |
+| `notifications` | `highlight_bell`, `highlight_words`, `notify_private`, `notify_highlight` |
+| `ctcp` | `version_reply`, `respond_to_version`, `rate_limit` |
+| `llm` | `provider`, `model`, `api_key_secret`, `temperature` |
+| `dcc` | `enabled`, `auto_accept`, `download_directory`, `passive` |
+
+## Live vs Restart Settings
+
+Some settings take effect immediately:
+
+| Setting | Live |
+|---------|------|
+| `ui.theme` | Yes — theme switches immediately |
+| `ui.show_join_part` | Yes |
+| `ui.show_hostmask_on_join` | Yes |
+| `ui.keybindings.mode` | Restart required |
+| `general.default_nick` | Restart required |
+| `llm.provider` | Next `/generate` use |
+| `dcc.enabled` | Restart required |
+
+## Config File Location
+
+```
+/set
+```
+
+The bottom of the output shows the config file path (typically `~/.config/flume/config.toml`).

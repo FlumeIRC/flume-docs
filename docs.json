@@ -66,6 +66,7 @@
           "commands/generate",
           "commands/dcc",
           "commands/server",
+          "commands/settings",
           "commands/vault"
         ]
       }

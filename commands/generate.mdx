@@ -22,29 +22,31 @@ Or set up manually — see [LLM Configuration](/configuration/llm).
 ## Generate a Script
 
 ```
+/generate script --name greeter greet users who join my channels
+/generate script --python --name urlbot log all URLs posted in channels
 /generate script auto-respond when someone mentions my nick
-/generate script --python log all URLs posted in channels
-/generate script --lua greet users who join my channels
 ```
 
-Default language is Lua. Use `--python` or `--lua` to choose.
+Use `--name <name>` to set the filename. Default language is Lua; use `--python` or `--lua` to choose.
 
 ## Generate a Theme
 
 ```
-/generate theme dark blue background with warm orange accents
-/generate theme light mode inspired by GitHub
+/generate theme --name midnight dark blue background with warm orange accents
+/generate theme --name github-light light mode inspired by GitHub
 /generate theme cyberpunk neon with purple and green
 ```
+
+Use `--name <name>` to set the theme filename. Without it, the name is derived from your description.
 
 ## Generate a Layout
 
 Layout generation creates a **split profile** — it picks which two buffers to show side-by-side and the split direction. It does not change the TUI chrome (panels, status bar).
 
 ```
-/generate layout monitoring with #ops on the left and #alerts on the right
+/generate layout --name monitoring #ops on the left and #alerts on the right
 /generate layout horizontal split with server on top and #general below
-/generate layout 70/30 split with #main on the left and #logs on the right
+/generate layout --name dev 70/30 split with #main on the left and #logs on the right
 ```
 
 ## Review and Accept

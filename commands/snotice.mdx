@@ -1,0 +1,143 @@
+---
+title: Server Notice Routing
+description: "Regex-based server notice parsing and routing for IRC operators"
+---
+
+IRC operators receive raw server notices (SNOTICEs) that are unstructured text varying by IRCd. The `/snotice` command lets you match, reformat, and route these notices to dedicated buffers — all from within the client.
+
+## Adding Rules
+
+```
+/snotice add --match <regex> [--format <fmt>] [--buffer <name>] [--suppress]
+```
+
+### Options
+
+| Flag | Description |
+|------|-------------|
+| `--match <regex>` | Regex pattern to match against notice text (required) |
+| `--format <fmt>` | Reformat using `${1}` `${2}` capture groups |
+| `--buffer <name>` | Route to a named buffer (auto-created) |
+| `--suppress` | Drop the notice entirely |
+
+### Examples
+
+**Route connection notices to a dedicated buffer:**
+```
+/snotice add --match "Client connecting.*?: (\S+) \((\S+)@(\S+)\) \[(\S+)\]" --format "[connect] ${1} (${2}@${3}) from ${4}" --buffer snotice-connections
+```
+
+**Route disconnections to the same buffer:**
+```
+/snotice add --match "Client exiting: (\S+) \((\S+)@(\S+)\)" --format "[disconnect] ${1} (${2}@${3})" --buffer snotice-connections
+```
+
+**Route nick changes to their own buffer:**
+```
+/snotice add --match "Nick change: (\S+) -> (\S+)" --format "[nick] ${1} -> ${2}" --buffer snotice-nicks
+```
+
+**Suppress noisy notices:**
+```
+/snotice add --match "Oper-up notice" --suppress
+```
+
+**Simple routing without reformatting:**
+```
+/snotice add --match "KILL message" --buffer snotice-kills
+```
+
+## Listing Rules
+
+```
+/snotice list
+```
+
+Shows all rules with their index number:
+```
+Snotice rules:
+  1: match="Client connecting.*?" format="[connect] ${1}" buffer="snotice-connections"
+  2: match="Oper-up" suppress
+```
+
+## Removing Rules
+
+```
+/snotice remove <number>
+```
+
+Remove by the index shown in `/snotice list`.
+
+## Saving Rules
+
+```
+/snotice save
+```
+
+Persists rules to `~/.config/flume/snotice.toml`. Rules are loaded from this file on startup.
+
+## File Format
+
+Rules are stored in `~/.config/flume/snotice.toml`:
+
+```toml
+[[rule]]
+match = 'Client connecting.*?: (\S+) \((\S+)@(\S+)\) \[(\S+)\]'
+format = "[connect] ${1} (${2}@${3}) from ${4}"
+buffer = "snotice-connections"
+
+[[rule]]
+match = 'Client exiting: (\S+) \((\S+)@(\S+)\)'
+format = "[disconnect] ${1} (${2}@${3})"
+buffer = "snotice-connections"
+
+[[rule]]
+match = "Oper-up"
+suppress = true
+```
+
+## Capture Groups
+
+Regex capture groups are available as variables in the format string:
+
+| Variable | Description |
+|----------|-------------|
+| `${0}` | The full match |
+| `${1}` | First capture group |
+| `${2}` | Second capture group |
+| `${3}` | Third capture group |
+| ... | And so on |
+
+## How It Works
+
+1. Server notices are matched against rules in order
+2. The **first matching rule** wins
+3. If the rule has a `format`, the text is reformatted using capture groups
+4. If the rule has a `buffer`, the notice is routed to that named buffer (auto-created in the buffer list)
+5. If `suppress` is true, the notice is dropped entirely
+6. Unmatched notices use the default `server_notice` format from `[formats]`
+
+## IRCd-Specific Examples
+
+### UnrealIRCd
+
+```
+/snotice add --match "Client connecting: (\S+) \((\S+)@(\S+)\)" --format "[connect] ${1} ${2}@${3}" --buffer snotice-conn
+/snotice add --match "Client exiting: (\S+) \((\S+)@(\S+)\)" --format "[exit] ${1} ${2}@${3}" --buffer snotice-conn
+```
+
+### InspIRCd
+
+```
+/snotice add --match "CONNECT: Client connecting on port \d+: (\S+)!(\S+)@(\S+)" --format "[connect] ${1} ${2}@${3}" --buffer snotice-conn
+```
+
+### charybdis / solanum (Libera Chat)
+
+```
+/snotice add --match "Client connecting: (\S+) \((\S+)@(\S+)\) \[(\S+)\]" --format "[connect] ${1} (${2}@${3}) [${4}]" --buffer snotice-conn
+```
+
+<Note>
+Rules take effect immediately on add/remove — no restart needed. Use `/snotice save` to persist across sessions.
+</Note>

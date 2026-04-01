@@ -1,0 +1,142 @@
+---
+title: Display Formats
+description: "Customize how messages and events are displayed"
+---
+
+Every message and event in Flume uses a configurable format string. You can customize the display of any message type in the `[formats]` section of `config.toml`.
+
+## Format String Syntax
+
+### Variables
+
+Use `${variable}` to insert values:
+
+```
+[formats]
+message = "<${nick}> ${text}"
+join = "--> ${nick} has joined ${channel}"
+```
+
+### Conditionals
+
+Use `${?variable|text}` to only render when the variable is non-empty:
+
+```
+part = "<-- ${nick} has left ${channel}${?message| (${message})}"
+```
+
+If `message` is empty, the `(message)` part is omitted entirely.
+
+## Message Formats
+
+```toml
+[formats]
+# Regular channel/PM messages
+message = "<${nick}> ${text}"
+own_message = "<${nick}> ${text}"
+
+# /me actions
+action = "* ${nick} ${text}"
+
+# NOTICE messages
+notice = "[notice] <${nick}> ${text}"
+server_notice = "[notice] ${text}"
+
+# System messages (joins, parts, etc.)
+system = "-- ${text} --"
+
+# Server replies (WHOIS, numerics, etc.)
+server = "[${label}] ${text}"
+```
+
+### Available Variables (Messages)
+
+| Variable | Description |
+|----------|-------------|
+| `${nick}` | Sender's nickname |
+| `${text}` | Message content |
+| `${label}` | Label for server messages (whois, error, etc.) |
+
+## Event Formats
+
+```toml
+[formats]
+join = "--> ${nick} (${userhost}) has joined ${channel}"
+part = "<-- ${nick} has left ${channel}${?message| (${message})}"
+quit = "<-- ${nick} has quit${?message| (${message})}"
+kick = "<<< ${target} was kicked from ${channel} by ${nick}${?reason| (${reason})}"
+nick_change = "*** ${old_nick} is now known as ${new_nick}"
+topic = "${nick} changed topic of ${channel}: ${topic}"
+mode = "mode/${target} [${modes}] by ${nick}"
+```
+
+### Available Variables (Events)
+
+| Variable | Description |
+|----------|-------------|
+| `${nick}` | The user performing the action |
+| `${channel}` | Channel name |
+| `${userhost}` | user@host (on join) |
+| `${message}` | Part/quit message (optional) |
+| `${target}` | Target user (kick) or mode target |
+| `${reason}` | Kick reason (optional) |
+| `${old_nick}` | Previous nickname (nick change) |
+| `${new_nick}` | New nickname (nick change) |
+| `${topic}` | New topic text |
+| `${modes}` | Mode string (e.g., `+o user`) |
+
+## UI Formats
+
+```toml
+[formats]
+# Status bar
+status_bar = "${time} | [${nick}(${user_modes})] | [${channel}(${chan_modes})] | [${user_count}]"
+
+# Buffer list entries
+buffer_entry = " ${index}.${name}"
+buffer_entry_unread = " ${index}.${name}(${unread})"
+buffer_entry_highlight = " ${index}.${name}(${unread}!)"
+```
+
+## Changing Formats at Runtime
+
+```
+/set formats.join --> ${nick} joined ${channel}
+/set formats.quit <-- ${nick} has quit
+/set formats.message [${nick}] ${text}
+```
+
+## Examples
+
+### Compact Style
+
+```toml
+[formats]
+message = "${nick}: ${text}"
+join = "+ ${nick}"
+part = "- ${nick}"
+quit = "- ${nick} (quit)"
+nick_change = "${old_nick} -> ${new_nick}"
+```
+
+### Verbose Style
+
+```toml
+[formats]
+message = "[${nick}] ${text}"
+join = ">>> ${nick} (${userhost}) has joined ${channel}"
+part = "<<< ${nick} has left ${channel}${?message| — ${message}}"
+quit = "<<< ${nick} has quit the network${?message| — ${message}}"
+kick = "!!! ${target} was kicked from ${channel} by ${nick}${?reason| — ${reason}}"
+```
+
+### irssi-like
+
+```toml
+[formats]
+join = "-!- ${nick} [${userhost}] has joined ${channel}"
+part = "-!- ${nick} [${userhost}] has left ${channel}${?message| [${message}]}"
+quit = "-!- ${nick} has quit [${message}]"
+nick_change = "-!- ${old_nick} is now known as ${new_nick}"
+mode = "-!- mode/${channel} [${modes}] by ${nick}"
+```

@@ -10,79 +10,70 @@
   "colors": {
     "primary": "#7aa2f7",
     "light": "#73daca",
-    "dark": "#1a1b26",
-    "anchors": {
-      "from": "#7aa2f7",
-      "to": "#bb9af7"
-    }
+    "dark": "#1a1b26"
   },
-  "topbarLinks": [
-    {
-      "name": "GitHub",
-      "url": "https://github.com/FlumeIRC/flume"
-    }
-  ],
-  "topbarCtaButton": {
-    "name": "Install",
-    "url": "https://github.com/FlumeIRC/flume#install"
+  "navbar": {
+    "links": [
+      {
+        "label": "GitHub",
+        "url": "https://github.com/FlumeIRC/flume"
+      }
+    ]
   },
-  "anchors": [
-    {
-      "name": "GitHub",
-      "icon": "github",
-      "url": "https://github.com/FlumeIRC/flume"
+  "navigation": {
+    "groups": [
+      {
+        "group": "Getting Started",
+        "pages": [
+          "getting-started/introduction",
+          "getting-started/installation",
+          "getting-started/quickstart",
+          "getting-started/keybindings"
+        ]
+      },
+      {
+        "group": "Configuration",
+        "pages": [
+          "configuration/overview",
+          "configuration/servers",
+          "configuration/themes",
+          "configuration/keybindings",
+          "configuration/notifications",
+          "configuration/dcc",
+          "configuration/llm",
+          "configuration/vault"
+        ]
+      },
+      {
+        "group": "Scripting",
+        "pages": [
+          "scripting/overview",
+          "scripting/api-reference",
+          "scripting/events",
+          "scripting/lua-guide",
+          "scripting/python-guide",
+          "scripting/examples"
+        ]
+      },
+      {
+        "group": "Commands",
+        "pages": [
+          "commands/chat",
+          "commands/channels",
+          "commands/navigation",
+          "commands/splits",
+          "commands/scripts",
+          "commands/generate",
+          "commands/dcc",
+          "commands/server",
+          "commands/vault"
+        ]
+      }
+    ]
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/FlumeIRC/flume"
     }
-  ],
-  "navigation": [
-    {
-      "group": "Getting Started",
-      "pages": [
-        "getting-started/introduction",
-        "getting-started/installation",
-        "getting-started/quickstart",
-        "getting-started/keybindings"
-      ]
-    },
-    {
-      "group": "Configuration",
-      "pages": [
-        "configuration/overview",
-        "configuration/servers",
-        "configuration/themes",
-        "configuration/keybindings",
-        "configuration/notifications",
-        "configuration/dcc",
-        "configuration/llm",
-        "configuration/vault"
-      ]
-    },
-    {
-      "group": "Scripting",
-      "pages": [
-        "scripting/overview",
-        "scripting/api-reference",
-        "scripting/events",
-        "scripting/lua-guide",
-        "scripting/python-guide",
-        "scripting/examples"
-      ]
-    },
-    {
-      "group": "Commands",
-      "pages": [
-        "commands/chat",
-        "commands/channels",
-        "commands/navigation",
-        "commands/splits",
-        "commands/scripts",
-        "commands/generate",
-        "commands/dcc",
-        "commands/server",
-        "commands/vault"
-      ]
-    }
-  ],
-  "footerSocials": {
-    "github": "https://github.com/FlumeIRC/flume"
   }
 }

@@ -3,6 +3,8 @@ title: Split Views
 description: "View two buffers side-by-side"
 ---
 
+Splits let you view **two buffers simultaneously** — for example, monitoring `#ops` and `#alerts` at the same time. This is different from the main TUI layout (buffer list, nick list, status bar) which is always present.
+
 ## /split
 
 ```
@@ -10,12 +12,14 @@ description: "View two buffers side-by-side"
 /split v|h <server>/<buffer>
 ```
 
-Split the view vertically (`v`, side-by-side) or horizontally (`h`, top-bottom).
+Split the chat area vertically (`v`, side-by-side) or horizontally (`h`, top-bottom).
 
 ```
 /split v #linux          # vertical split with #linux
 /split h libera/#ops     # horizontal, cross-server
 ```
+
+The "primary" pane shows your current buffer. The "secondary" pane shows the buffer you specify. Use `/focus` or `Alt+Tab` to swap which pane receives your input.
 
 ## /unsplit
 
@@ -35,6 +39,8 @@ Swap keyboard focus between the two panes. Also available via `Alt+Tab`.
 
 ## /layout
 
+Save and restore split configurations:
+
 ```
 /layout save <name>      # save current split as a named layout
 /layout load <name>      # restore a saved layout
@@ -42,10 +48,35 @@ Swap keyboard focus between the two panes. Also available via `Alt+Tab`.
 /layout delete <name>    # delete a saved layout
 ```
 
-Layouts are saved as TOML in `~/.config/flume/layouts/`.
+Layouts are saved as TOML in `~/.local/share/flume/layouts/`.
+
+### Layout File Format
+
+A layout profile is a simple TOML file:
+
+```toml
+direction = "vertical"    # "vertical" (side-by-side) or "horizontal" (top-bottom)
+primary = "#ops"          # buffer in the left/top pane
+secondary = "#alerts"     # buffer in the right/bottom pane
+ratio = 50                # percentage of space for the primary pane (1-99)
+```
 
 ### Generate a Layout with AI
 
 ```
 /generate layout monitoring with #ops on the left and #alerts on the right
 ```
+
+This generates a layout profile — it chooses the direction, buffer names, and ratio based on your description.
+
+**More examples:**
+
+```
+/generate layout side-by-side view of #rust and #python
+/generate layout horizontal split with server notices on top and #general below
+/generate layout 70/30 split with #main on the left and #logs on the right
+```
+
+<Note>
+`/generate layout` creates split profiles — it controls which two buffers are shown side-by-side. It does **not** change the TUI chrome (buffer list panel, nick list, status bar content). Those are configured in `config.toml` under `[ui]`.
+</Note>

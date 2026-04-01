@@ -39,9 +39,12 @@ Default language is Lua. Use `--python` or `--lua` to choose.
 
 ## Generate a Layout
 
+Layout generation creates a **split profile** — it picks which two buffers to show side-by-side and the split direction. It does not change the TUI chrome (panels, status bar).
+
 ```
 /generate layout monitoring with #ops on the left and #alerts on the right
 /generate layout horizontal split with server on top and #general below
+/generate layout 70/30 split with #main on the left and #logs on the right
 ```
 
 ## Review and Accept

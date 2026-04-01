@@ -71,3 +71,36 @@ Search the active buffer. Matching lines are highlighted. Run `/search` with no 
 ```
 
 List recent URLs in the buffer, or open the Nth most recent URL.
+
+## /emoji
+
+```
+/emoji [search]
+```
+
+With no args: show usage and examples. With a search term: find matching emoji shortcodes.
+
+Type `:shortcode:` in messages — they're replaced with emoji on send:
+
+```
+:thumbsup: → 👍    :fire: → 🔥    :wave: → 👋
+:heart: → ❤️       :rocket: → 🚀   :100: → 💯
+```
+
+Tab-complete: type `:thu` then Tab to cycle through matching emoji.
+
+## /help
+
+```
+/help [command]
+```
+
+With no args: show the full command list. With a command name: show detailed help for that command.
+
+```
+/help go        — help on /go
+/help split     — help on /split
+/help generate  — help on /generate
+```
+
+Also shows help text for script-registered commands.

@@ -35,3 +35,15 @@ Reload a script from disk (useful during development).
 ```
 
 Show loaded scripts and any custom commands they registered.
+
+## Script Command Help
+
+Scripts can register commands with help text:
+
+```lua
+flume.command.register("greet", function(args)
+    flume.buffer.print("", "", "Hello " .. args)
+end, "Greet someone by name")
+```
+
+Users can then type `/help greet` to see the help text.

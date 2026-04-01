@@ -11,11 +11,14 @@ Scripts register event handlers and custom commands through the `flume` module. 
 
 ## Script Directories
 
+All scripts live under `~/.local/share/flume/scripts/`:
+
 | Directory | Purpose |
 |-----------|---------|
-| `~/.config/flume/scripts/autoload/` | Loaded automatically on startup |
-| `~/.config/flume/scripts/available/` | Installed but not auto-loaded |
-| `~/.config/flume/scripts/generated/` | Created by `/generate script` |
+| `lua/autoload/` | Lua scripts loaded automatically on startup |
+| `python/autoload/` | Python scripts loaded automatically on startup |
+| `available/` | Installed but not auto-loaded |
+| `generated/` | Created by `/generate script` |
 
 ## Managing Scripts
 
@@ -29,7 +32,7 @@ Scripts register event handlers and custom commands through the `flume` module. 
 
 ## Your First Script
 
-**Lua** (`~/.config/flume/scripts/autoload/hello.lua`):
+**Lua** (`~/.local/share/flume/scripts/lua/autoload/hello.lua`):
 ```lua
 flume.event.on("message", function(e)
     if e.text:find("!hello") then
@@ -38,7 +41,7 @@ flume.event.on("message", function(e)
 end)
 ```
 
-**Python** (`~/.config/flume/scripts/autoload/hello.py`):
+**Python** (`~/.local/share/flume/scripts/python/autoload/hello.py`):
 ```python
 import flume
 

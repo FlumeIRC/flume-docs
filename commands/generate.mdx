@@ -11,9 +11,11 @@ Flume can generate scripts, themes, and layouts from natural language descriptio
 /generate init
 ```
 
-This walks you through:
-1. Choosing a provider (Anthropic or OpenAI)
-2. Storing your API key in the vault
+This walks you through interactively:
+1. Choose a provider — type `1` for Anthropic (Claude) or `2` for OpenAI (GPT)
+2. Paste your API key — stored automatically in the encrypted vault
+
+The provider and model are saved to `config.toml` and the key to the vault. Works immediately in the same session — no restart needed.
 
 Or set up manually — see [LLM Configuration](/configuration/llm).
 

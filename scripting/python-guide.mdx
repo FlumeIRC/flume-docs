@@ -1,0 +1,80 @@
+---
+title: Python Guide
+description: "Writing Flume scripts in Python"
+---
+
+Flume optionally embeds Python 3.10+ via PyO3. Python scripting requires building with `--features python`.
+
+## Full Import Access
+
+Unlike Lua, Python scripts have **full import access** — you can use any installed pip package. This is intentional: scripts are trusted user-installed extensions, just like in weechat or irssi.
+
+```python
+import json
+import re
+import os.path
+
+# Third-party packages work too
+import pyotp  # pip install pyotp
+import requests  # pip install requests
+```
+
+## Example: TOTP Generator
+
+```python
+# totp.py
+import flume
+
+try:
+    import pyotp
+    HAS_PYOTP = True
+except ImportError:
+    HAS_PYOTP = False
+
+def handle_totp(args):
+    if not HAS_PYOTP:
+        flume.buffer.print("", "", "pyotp not installed. Run: pip install pyotp")
+        return
+
+    parts = args.strip().split(None, 1)
+    if parts and parts[0] == "set":
+        if len(parts) < 2:
+            flume.buffer.print("", "", "Usage: /totp set <secret>")
+            return
+        flume.config.set("secret", parts[1])
+        flume.buffer.print("", "", "TOTP secret saved")
+        return
+
+    secret = args.strip() if args.strip() else flume.config.get("secret")
+    if not secret:
+        flume.buffer.print("", "", "Usage: /totp <secret> or /totp set <secret>")
+        return
+
+    code = pyotp.TOTP(secret).now()
+    flume.buffer.print("", "", f"TOTP code: {code}")
+
+flume.command.register("totp", handle_totp, "Generate TOTP code")
+```
+
+## Example: Greeter Bot
+
+```python
+# greet.py
+import flume
+
+def on_message(e):
+    text = e.get("text", "")
+    if text.startswith("!greet"):
+        nick = e.get("nick", "someone")
+        channel = e.get("channel", "")
+        server = e.get("server", "")
+        if channel:
+            flume.channel.say(server, channel, f"Hello, {nick}!")
+
+flume.event.on("message", on_message)
+
+def pyinfo(args):
+    flume.buffer.print("", "", "Python scripting is active!")
+
+flume.command.register("pyinfo", pyinfo, "Show Python script info")
+```

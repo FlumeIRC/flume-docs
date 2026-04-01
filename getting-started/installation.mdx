@@ -1,0 +1,55 @@
+---
+title: Installation
+description: "How to install Flume on your system"
+---
+
+## From Source
+
+Requires [Rust](https://rustup.rs/) 1.75+.
+
+```bash
+git clone https://github.com/FlumeIRC/flume.git
+cd flume
+cargo install --path flume-tui
+```
+
+The binary installs as `flume-tui`. Add an alias if you prefer:
+
+```bash
+alias flume=flume-tui
+```
+
+### With Python Scripting
+
+Python scripting is an optional feature requiring Python 3.10+ development headers:
+
+```bash
+cargo install --path flume-tui --features python
+```
+
+## Homebrew (macOS / Linux)
+
+```bash
+brew install FlumeIRC/tap/flume
+```
+
+## Arch Linux (AUR)
+
+```bash
+yay -S flume
+```
+
+## FreeBSD
+
+```bash
+pkg install flume
+```
+
+## Pre-built Binaries
+
+Download from the [GitHub Releases](https://github.com/FlumeIRC/flume/releases) page.
+
+Available for:
+- macOS (Apple Silicon)
+- macOS (Intel)
+- Linux (x86_64)

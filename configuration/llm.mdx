@@ -1,0 +1,46 @@
+---
+title: LLM Configuration
+description: "Set up AI-powered generation with your own API key"
+---
+
+Flume can generate scripts, themes, and layouts using an LLM. You bring your own API key.
+
+## Quick Setup
+
+The easiest way to set up LLM generation:
+
+```
+/generate init
+```
+
+This walks you through provider selection and API key storage.
+
+## Manual Configuration
+
+### 1. Choose a Provider
+
+Add to `config.toml`:
+
+```toml
+[llm]
+provider = "anthropic"              # or "openai"
+model = "claude-sonnet-4-20250514"  # or "gpt-4o"
+temperature = 0.3
+max_tokens = 4096
+```
+
+### 2. Store Your API Key
+
+```
+/secure init           # create vault if needed
+/secure set flume_llm_key YOUR_API_KEY
+```
+
+### Supported Providers
+
+| Provider | Models | API Key Source |
+|----------|--------|----------------|
+| Anthropic | claude-sonnet-4-20250514, claude-haiku-4-5-20251001 | [console.anthropic.com](https://console.anthropic.com) |
+| OpenAI | gpt-4o, gpt-4o-mini | [platform.openai.com](https://platform.openai.com) |
+
+See [Generate Commands](/commands/generate) for usage.

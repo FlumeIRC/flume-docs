@@ -1,0 +1,44 @@
+---
+title: Example Scripts
+description: "Ready-to-use scripts shipped with Flume"
+---
+
+These scripts are in the `examples/scripts/` directory of the Flume repo. Copy them to `~/.config/flume/scripts/autoload/` to use them.
+
+## highlight.lua
+
+Custom keyword notifications. Watches messages for configurable words and sends desktop notifications.
+
+```
+/script load highlight
+/highlight flume rust my-project
+```
+
+## away_logger.lua
+
+Collects private messages and highlights while you're away. Replays them when you come back.
+
+```
+/script load away_logger
+/awayon         # start logging
+/awayoff        # show missed messages
+```
+
+## url_title.lua
+
+Announces URLs posted in channels.
+
+## greet.py
+
+Responds to `!greet` in channels. Demonstrates Python event handling.
+
+## totp.py
+
+TOTP code generator using the `pyotp` package. Demonstrates full Python import access.
+
+```
+pip install pyotp
+/script load totp
+/totp set YOUR_SECRET
+/totp
+```

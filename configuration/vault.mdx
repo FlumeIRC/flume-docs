@@ -1,0 +1,57 @@
+---
+title: Vault
+description: "Encrypted secret storage for passwords and API keys"
+---
+
+Flume uses an encrypted vault to store sensitive values like passwords and API keys. Secrets are encrypted with AES-256-GCM, keyed from your passphrase via Argon2.
+
+## Setup
+
+```
+/secure init
+```
+
+You'll be prompted to create a passphrase. This encrypts the vault file at `~/.local/share/flume/vault.toml`.
+
+## Storing Secrets
+
+```
+/secure set libera_pass my-sasl-password
+/secure set flume_llm_key sk-ant-api-key
+```
+
+## Listing Secrets
+
+```
+/secure list
+```
+
+Shows secret names (not values).
+
+## Deleting Secrets
+
+```
+/secure del libera_pass
+```
+
+## Referencing Secrets in Config
+
+Use `${secret_name}` syntax in `irc.toml`:
+
+```toml
+sasl_password = "${libera_pass}"
+```
+
+The value is resolved from the vault at runtime.
+
+## Unlocking on Startup
+
+If a vault exists, Flume prompts for the passphrase on startup. Press Enter to skip (secrets won't be available until unlocked).
+
+You can also set the `FLUME_VAULT_PASS` environment variable to auto-unlock.
+
+## Changing the Passphrase
+
+```
+/secure passphrase
+```

@@ -1,0 +1,73 @@
+---
+title: Navigation
+description: "Buffer and server navigation commands"
+---
+
+## /go
+
+```
+/go <name or number>
+```
+
+Jump to a buffer by window number (1-indexed) or by name. Supports substring matching.
+
+```
+/go 3          # jump to window 3
+/go #rust      # exact match
+/go rust       # fuzzy match — finds #rust
+/go libera     # switch to server if no buffer matches
+```
+
+## /buffer
+
+```
+/buffer [name]
+```
+
+With no args: list all buffers with numbers. With a name: switch to that buffer.
+
+```
+/buffer           # list buffers
+/buffer #rust     # switch to #rust
+/buffer server    # switch to server buffer
+```
+
+## /switch
+
+```
+/switch <server>
+```
+
+Switch to a different connected server.
+
+## /close
+
+```
+/close
+```
+
+Close the active buffer.
+
+## /clear
+
+```
+/clear
+```
+
+Clear the active buffer's message history.
+
+## /search
+
+```
+/search <pattern>
+```
+
+Search the active buffer. Matching lines are highlighted. Run `/search` with no args to clear.
+
+## /url
+
+```
+/url [N]
+```
+
+List recent URLs in the buffer, or open the Nth most recent URL.

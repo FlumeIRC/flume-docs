@@ -1,0 +1,141 @@
+---
+title: Events
+description: "IRC events your scripts can listen to"
+---
+
+Register handlers with `flume.event.on(name, callback)`. The callback receives a table (Lua) or dict (Python) with the fields listed below.
+
+## Channel Events
+
+### message
+A message sent to a channel.
+
+| Field | Description |
+|-------|-------------|
+| `server` | Server name |
+| `channel` | Channel name |
+| `nick` | Sender's nick |
+| `text` | Message text |
+
+### join
+A user joined a channel.
+
+| Field | Description |
+|-------|-------------|
+| `server` | Server name |
+| `channel` | Channel name |
+| `nick` | Nick that joined |
+
+### part
+A user left a channel.
+
+| Field | Description |
+|-------|-------------|
+| `server` | Server name |
+| `channel` | Channel name |
+| `nick` | Nick that left |
+| `message` | Part message (may be empty) |
+
+### kick
+A user was kicked from a channel.
+
+| Field | Description |
+|-------|-------------|
+| `server` | Server name |
+| `channel` | Channel name |
+| `nick` | Nick of the kicker |
+| `target` | Nick that was kicked |
+| `reason` | Kick reason |
+
+### topic_change
+
+| Field | Description |
+|-------|-------------|
+| `server` | Server name |
+| `channel` | Channel name |
+| `nick` | Nick that changed it |
+| `topic` | New topic text |
+
+### mode_change
+
+| Field | Description |
+|-------|-------------|
+| `server` | Server name |
+| `target` | Channel or nick |
+| `modes` | Mode string (e.g., `+o`) |
+| `params` | Mode parameters |
+
+## Private Events
+
+### private_message
+A private message (PM) to you.
+
+| Field | Description |
+|-------|-------------|
+| `server` | Server name |
+| `nick` | Sender's nick |
+| `text` | Message text |
+
+### notice
+A NOTICE message.
+
+| Field | Description |
+|-------|-------------|
+| `server` | Server name |
+| `nick` | Sender's nick |
+| `target` | Target (you or a channel) |
+| `text` | Notice text |
+
+## User Events
+
+### nick_change
+
+| Field | Description |
+|-------|-------------|
+| `server` | Server name |
+| `old_nick` | Previous nick |
+| `new_nick` | New nick |
+
+### quit
+
+| Field | Description |
+|-------|-------------|
+| `server` | Server name |
+| `nick` | Nick that quit |
+| `message` | Quit message |
+
+## Connection Events
+
+### connect
+Successfully connected and registered.
+
+| Field | Description |
+|-------|-------------|
+| `server` | Server name |
+| `nick` | Your nick |
+
+### disconnect
+
+| Field | Description |
+|-------|-------------|
+| `server` | Server name |
+| `reason` | Disconnect reason |
+
+## Protocol Events
+
+### ctcp_request
+
+| Field | Description |
+|-------|-------------|
+| `server` | Server name |
+| `nick` | Sender |
+| `command` | CTCP command (VERSION, PING, etc.) |
+| `params` | CTCP parameters |
+
+### raw
+Every IRC message (for advanced scripts).
+
+| Field | Description |
+|-------|-------------|
+| `server` | Server name |
+| `line` | Raw command representation |

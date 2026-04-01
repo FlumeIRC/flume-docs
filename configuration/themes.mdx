@@ -1,0 +1,91 @@
+---
+title: Themes
+description: "Customize Flume's appearance with themes"
+---
+
+## Using Themes
+
+```
+/theme                  # list available themes
+/theme solarized-dark   # switch theme
+/theme reload           # hot-reload current theme
+```
+
+Themes are TOML files in `~/.config/flume/themes/`.
+
+## Shipped Themes
+
+Flume ships with three themes in `examples/themes/`:
+- `solarized-dark`
+- `gruvbox-dark`
+- `catppuccin-mocha`
+
+Copy them to your themes directory to use them.
+
+## Theme Format
+
+```toml
+[meta]
+name = "my-theme"
+description = "A custom theme"
+author = "Your Name"
+version = "1.0"
+
+[colors]
+background = "#1a1b26"
+foreground = "#c0caf5"
+title_bar_bg = "#1a1b26"
+title_bar_fg = "#7aa2f7"
+status_bar_bg = "#1a1b26"
+status_bar_fg = "#565f89"
+input_bg = "#1a1b26"
+input_fg = "#c0caf5"
+active = "#7aa2f7"
+inactive = "#565f89"
+unread = "#e0af68"
+chat_timestamp = "#565f89"
+chat_message = "#c0caf5"
+chat_own_nick = "#7aa2f7"
+chat_action = "#bb9af7"
+chat_server = "#565f89"
+chat_system = "#e0af68"
+chat_highlight = "#f7768e"
+chat_url = "#73daca"
+scroll_indicator = "#565f89"
+search_match_fg = "#1a1b26"
+search_match_bg = "#e0af68"
+nick_list_fg = "#c0caf5"
+nick_list_op = "#f7768e"
+nick_list_voice = "#9ece6a"
+
+[nick_colors]
+mode = "hash"
+palette = ["#f7768e", "#ff9e64", "#e0af68", "#9ece6a", "#73daca", "#7aa2f7", "#bb9af7"]
+```
+
+## Color Values
+
+Colors can be:
+- Hex RGB: `"#FF5500"`
+- Named: `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`
+- Bright variants: `bright_red`, `bright_green`, etc.
+
+## Nick Colors
+
+Nick colors are assigned by hashing the nickname and indexing into the palette. This gives each nick a consistent color that persists across sessions. Colors are reused in large channels.
+
+## Generate a Theme with AI
+
+```
+/generate theme dark blue background with warm orange accents
+```
+
+See [LLM Generation](/commands/generate) for setup.
+
+## Hot Reload
+
+Themes are hot-reloadable — edit the TOML file and changes appear on the next render tick (~33ms). You can also force a reload:
+
+```
+/theme reload
+```

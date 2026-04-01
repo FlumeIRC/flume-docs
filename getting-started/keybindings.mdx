@@ -1,0 +1,79 @@
+---
+title: Keybindings
+description: "Keyboard shortcuts and input modes"
+---
+
+Flume supports two keybinding modes: **Emacs** (default) and **Vi**.
+
+Set your mode in `config.toml`:
+
+```toml
+[ui.keybindings]
+mode = "emacs"  # or "vi"
+```
+
+## Global Keys (All Modes)
+
+| Key | Action |
+|-----|--------|
+| `Ctrl+C` | Quit |
+| `Ctrl+X` | Cycle servers |
+| `Alt+1-9` | Jump to buffer by number |
+| `Alt+Left/Right` | Cycle buffers |
+| `Alt+Tab` | Swap split focus |
+| `PageUp/Down` | Scroll buffer |
+| `Tab` | Nick completion |
+| `Enter` | Submit input |
+
+## Emacs Mode
+
+| Key | Action |
+|-----|--------|
+| `Ctrl+A` / `Home` | Start of line |
+| `Ctrl+E` / `End` | End of line |
+| `Ctrl+B` / `Left` | Cursor left |
+| `Ctrl+F` / `Right` | Cursor right |
+| `Alt+B` | Word left |
+| `Alt+F` | Word right |
+| `Ctrl+D` / `Delete` | Delete forward |
+| `Ctrl+K` | Kill to end of line |
+| `Ctrl+U` | Kill to start of line |
+| `Ctrl+W` | Delete word back |
+| `Ctrl+T` | Transpose chars |
+| `Ctrl+P` / `Up` | History previous |
+| `Ctrl+N` / `Down` | History next |
+| `Esc` | Quit |
+
+## Vi Mode
+
+Vi mode has two sub-modes: **Insert** and **Normal**.
+
+### Insert Mode
+
+Type text normally. Press `Esc` to enter Normal mode.
+
+| Key | Action |
+|-----|--------|
+| `Esc` | Enter Normal mode |
+| `Ctrl+W` | Delete word back |
+| `Ctrl+U` | Kill to start of line |
+| `Ctrl+K` | Kill to end of line |
+
+### Normal Mode
+
+| Key | Action |
+|-----|--------|
+| `i` | Insert at cursor |
+| `a` | Insert after cursor |
+| `A` | Insert at end of line |
+| `I` | Insert at start of line |
+| `h` / `l` | Cursor left / right |
+| `w` / `b` | Word forward / backward |
+| `0` / `$` | Start / end of line |
+| `x` / `X` | Delete char forward / back |
+| `dd` | Delete entire line |
+| `cc` | Change entire line |
+| `C` | Change to end of line |
+| `j` / `k` | History next / previous |
+
+The mode indicator shows in the input line: `[I]` for insert, `[N]` for normal.

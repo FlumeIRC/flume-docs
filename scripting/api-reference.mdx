@@ -1,0 +1,104 @@
+---
+title: API Reference
+description: "Complete Flume Script API for Lua and Python"
+---
+
+All functions are accessed through the `flume` module.
+
+## flume.event
+
+Subscribe to IRC events.
+
+| Function | Description |
+|----------|-------------|
+| `flume.event.on(name, callback)` | Register an event handler |
+| `flume.event.off(name)` | Remove your handlers for an event |
+
+The callback receives an event table/dict with fields specific to each event type. See [Events](/scripting/events) for the full list.
+
+### Event Cancellation
+
+Scripts can cancel events to suppress default processing:
+
+**Lua:**
+```lua
+flume.event.on("message", function(e)
+    if e.text:find("spam") then
+        e:cancel()  -- suppress this message
+    end
+end)
+```
+
+**Python:**
+```python
+def on_message(e):
+    if "spam" in e.get("text", ""):
+        e["_cancel"] = True
+
+flume.event.on("message", on_message)
+```
+
+## flume.channel
+
+Channel operations.
+
+| Function | Description |
+|----------|-------------|
+| `flume.channel.say(server, target, text)` | Send a message |
+| `flume.channel.join(server, channel, key?)` | Join a channel |
+| `flume.channel.part(server, channel, message?)` | Leave a channel |
+
+## flume.buffer
+
+Buffer operations.
+
+| Function | Description |
+|----------|-------------|
+| `flume.buffer.print(server, buffer, text)` | Print text to a buffer |
+| `flume.buffer.switch(buffer_name)` | Switch active buffer |
+
+Use `""` for server and buffer to target the currently active ones.
+
+## flume.command
+
+Register custom slash commands.
+
+| Function | Description |
+|----------|-------------|
+| `flume.command.register(name, callback, help_text)` | Register `/name` command |
+| `flume.command.unregister(name)` | Remove a command |
+
+The `help_text` is shown when users type `/help name`.
+
+```lua
+flume.command.register("greet", function(args)
+    flume.buffer.print("", "", "Hello " .. args .. "!")
+end, "Greet someone by name")
+```
+
+## flume.config
+
+Per-script persistent configuration. Stored as TOML in `~/.config/flume/scripts/<scriptname>.toml`.
+
+| Function | Description |
+|----------|-------------|
+| `flume.config.get(key)` | Read a config value |
+| `flume.config.set(key, value)` | Write a config value |
+
+Supports strings, integers, floats, and booleans.
+
+## flume.server
+
+Server operations.
+
+| Function | Description |
+|----------|-------------|
+| `flume.server.send_raw(server, line)` | Send a raw IRC line |
+
+## flume.ui
+
+UI operations.
+
+| Function | Description |
+|----------|-------------|
+| `flume.ui.notify(message, level?)` | Send a desktop notification |

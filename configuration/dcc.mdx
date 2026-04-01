@@ -1,0 +1,27 @@
+---
+title: DCC Configuration
+description: "Configure DCC file transfers and chat"
+---
+
+DCC is disabled by default for security. Enable it in `config.toml`:
+
+```toml
+[dcc]
+enabled = true
+auto_accept = false
+download_directory = "~/Downloads/flume"
+port_range = [1024, 65535]
+passive = true
+max_transfer_size = 0
+```
+
+| Field | Default | Description |
+|-------|---------|-------------|
+| `enabled` | `false` | Enable DCC support |
+| `auto_accept` | `false` | Auto-accept incoming DCC offers (use with caution) |
+| `download_directory` | `~/Downloads/flume` | Where to save received files |
+| `port_range` | `[1024, 65535]` | Port range for listening (outgoing sends, passive DCC) |
+| `passive` | `true` | Prefer passive DCC (NAT-friendly) |
+| `max_transfer_size` | `0` | Max file size in bytes (0 = unlimited) |
+
+See [DCC Commands](/commands/dcc) for usage.

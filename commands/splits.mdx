@@ -1,0 +1,51 @@
+---
+title: Split Views
+description: "View two buffers side-by-side"
+---
+
+## /split
+
+```
+/split v|h <buffer>
+/split v|h <server>/<buffer>
+```
+
+Split the view vertically (`v`, side-by-side) or horizontally (`h`, top-bottom).
+
+```
+/split v #linux          # vertical split with #linux
+/split h libera/#ops     # horizontal, cross-server
+```
+
+## /unsplit
+
+```
+/unsplit
+```
+
+Close the split and return to single buffer view.
+
+## /focus
+
+```
+/focus
+```
+
+Swap keyboard focus between the two panes. Also available via `Alt+Tab`.
+
+## /layout
+
+```
+/layout save <name>      # save current split as a named layout
+/layout load <name>      # restore a saved layout
+/layout list             # list saved layouts
+/layout delete <name>    # delete a saved layout
+```
+
+Layouts are saved as TOML in `~/.config/flume/layouts/`.
+
+### Generate a Layout with AI
+
+```
+/generate layout monitoring with #ops on the left and #alerts on the right
+```

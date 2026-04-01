@@ -1,0 +1,37 @@
+---
+title: Script Commands
+description: "Load and manage Lua and Python scripts"
+---
+
+## /script load
+
+```
+/script load <name>
+/script load /path/to/script.lua
+```
+
+Load a script by name (searches autoload and available dirs) or by full path. Supports `.lua` and `.py` files.
+
+## /script unload
+
+```
+/script unload <name>
+```
+
+Unload a script and remove its event handlers and commands.
+
+## /script reload
+
+```
+/script reload <name>
+```
+
+Reload a script from disk (useful during development).
+
+## /script list
+
+```
+/script list
+```
+
+Show loaded scripts and any custom commands they registered.

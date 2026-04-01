@@ -1,0 +1,56 @@
+---
+title: LLM Generation
+description: "Generate scripts, themes, and layouts with AI"
+---
+
+Flume can generate scripts, themes, and layouts from natural language descriptions using your own LLM API key.
+
+## Setup
+
+```
+/generate init
+```
+
+This walks you through:
+1. Choosing a provider (Anthropic or OpenAI)
+2. Storing your API key in the vault
+
+Or set up manually — see [LLM Configuration](/configuration/llm).
+
+## Generate a Script
+
+```
+/generate script auto-respond when someone mentions my nick
+/generate script --python log all URLs posted in channels
+/generate script --lua greet users who join my channels
+```
+
+Default language is Lua. Use `--python` or `--lua` to choose.
+
+## Generate a Theme
+
+```
+/generate theme dark blue background with warm orange accents
+/generate theme light mode inspired by GitHub
+/generate theme cyberpunk neon with purple and green
+```
+
+## Generate a Layout
+
+```
+/generate layout monitoring with #ops on the left and #alerts on the right
+/generate layout horizontal split with server on top and #general below
+```
+
+## Review and Accept
+
+Generated content appears in a split preview pane with line numbers. Then:
+
+```
+/generate accept    # save and apply
+/generate reject    # discard
+```
+
+- **Scripts** are saved to `scripts/generated/` and auto-loaded
+- **Themes** are saved to `themes/` and applied immediately
+- **Layouts** are saved to `layouts/` for use with `/layout load`

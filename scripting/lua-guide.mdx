@@ -1,0 +1,57 @@
+---
+title: Lua Guide
+description: "Writing Flume scripts in Lua"
+---
+
+Flume embeds Lua 5.4. Scripts have access to the standard Lua library (string, table, math, os.time/date/clock) with dangerous functions removed for safety.
+
+## Sandbox
+
+The following are **blocked** in Lua scripts:
+- `os.execute`, `os.remove`, `os.rename`, `os.getenv`, `os.exit`
+- `io.open`, `io.popen`, `io.input`, `io.output`
+- `dofile`, `loadfile`
+- `debug` library
+
+Use `flume.config.get/set` for persistent storage instead of file I/O.
+
+## Example: Highlight Script
+
+```lua
+-- highlight.lua
+flume.event.on("message", function(e)
+    local words = flume.config.get("words") or ""
+    for word in words:gmatch("%S+") do
+        if e.text:lower():find(word:lower(), 1, true) then
+            flume.ui.notify(e.nick .. " mentioned '" .. word .. "'")
+        end
+    end
+end)
+
+flume.command.register("highlight", function(args)
+    if args == "" then
+        local words = flume.config.get("words") or "(none)"
+        flume.buffer.print("", "", "Highlight words: " .. words)
+    else
+        flume.config.set("words", args)
+        flume.buffer.print("", "", "Highlight words set to: " .. args)
+    end
+end, "View or set highlight words")
+```
+
+## Example: Auto-Response
+
+```lua
+-- autorespond.lua
+local responses = {
+    ["!help"] = "Try /help for commands",
+    ["!source"] = "https://github.com/FlumeIRC/flume",
+}
+
+flume.event.on("message", function(e)
+    local reply = responses[e.text:lower()]
+    if reply then
+        flume.channel.say(e.server, e.channel, reply)
+    end
+end)
+```

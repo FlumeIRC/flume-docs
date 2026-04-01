@@ -1,0 +1,78 @@
+---
+title: Server Management
+description: "Configure and manage IRC network connections"
+---
+
+## /server add
+
+```
+/server add <name> <address> [port] [-tls|-notls] [-autoconnect]
+```
+
+Add a network to your configuration.
+
+```
+/server add libera irc.libera.chat 6697 -tls -autoconnect
+/server add efnet irc.efnet.org 6667 -notls
+```
+
+## /server remove
+
+```
+/server remove <name>
+```
+
+Remove a network from configuration.
+
+## /server list
+
+```
+/server list
+```
+
+List all configured networks.
+
+## /server set
+
+```
+/server set <name> <key> <value>
+```
+
+Set a field on a network. Available fields:
+
+| Key | Example |
+|-----|---------|
+| `address` | `irc.libera.chat` |
+| `port` | `6697` |
+| `tls` | `true` |
+| `auth_method` | `sasl`, `nickserv`, `none` |
+| `sasl_username` | `mynick` |
+| `sasl_password` | `${libera_pass}` |
+| `nick` | `mynick` |
+| `autojoin` | `#rust, #flume` |
+| `autoconnect` | `true` |
+| `bouncer` | `znc`, `soju`, `none` |
+
+## /connect
+
+```
+/connect <name>
+```
+
+Connect to a configured network.
+
+## /disconnect
+
+```
+/disconnect
+```
+
+Disconnect the active server.
+
+## /save
+
+```
+/save
+```
+
+Save the current configuration to disk.

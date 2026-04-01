@@ -1,0 +1,75 @@
+---
+title: DCC Commands
+description: "File transfers, DCC CHAT, and XDCC"
+---
+
+<Warning>DCC is disabled by default. Enable it in config.toml: `[dcc] enabled = true`</Warning>
+
+## /dcc list
+
+```
+/dcc list
+```
+
+Show all DCC transfers with status (pending, active with progress, complete, failed).
+
+## /dcc accept
+
+```
+/dcc accept [id]
+```
+
+Accept a pending DCC offer. With no ID, accepts the most recent pending offer.
+
+## /dcc reject
+
+```
+/dcc reject [id]
+```
+
+Reject a pending DCC offer.
+
+## /dcc send
+
+```
+/dcc send <nick> <file>
+```
+
+Send a file to a user via DCC.
+
+## /dcc chat
+
+```
+/dcc chat <nick>
+```
+
+Start a direct DCC CHAT session with a user (bypasses the IRC server).
+
+## /dcc close
+
+```
+/dcc close <id>
+```
+
+Close a DCC CHAT or cancel a transfer.
+
+## XDCC
+
+Request files from XDCC bots:
+
+```
+/xdcc <bot> <pack#>     # request a pack
+/xdcc <bot> list         # request pack list
+/xdcc <bot> cancel       # cancel transfer
+```
+
+Example:
+```
+/xdcc FileBot 42         # request pack #42 from FileBot
+```
+
+XDCC responses arrive as normal DCC SEND offers — use `/dcc accept` to download.
+
+## Progress
+
+Active transfers show progress in the status bar: `[DCC filename 45%]`

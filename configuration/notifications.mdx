@@ -1,0 +1,29 @@
+---
+title: Notifications
+description: "Configure highlights, bell, and desktop notifications"
+---
+
+```toml
+[notifications]
+highlight_bell = true
+highlight_words = ["mynick", "flume"]
+notify_private = true
+notify_highlight = true
+```
+
+| Field | Default | Description |
+|-------|---------|-------------|
+| `highlight_bell` | `true` | Ring terminal bell on highlights |
+| `highlight_words` | `[]` | Extra words that trigger highlights (your nick is always included) |
+| `notify_private` | `true` | Desktop notification for private messages |
+| `notify_highlight` | `true` | Desktop notification for highlights |
+
+## Display Settings
+
+```toml
+[ui]
+show_join_part = true          # show join/part/quit messages
+show_hostmask_on_join = true   # show user@host on joins
+```
+
+Set `show_join_part = false` to hide join/part/quit spam in busy channels. Nick lists still update silently.

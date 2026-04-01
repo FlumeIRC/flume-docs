@@ -1,0 +1,100 @@
+---
+title: Chat Commands
+description: "Messaging and interaction commands"
+---
+
+## /join
+
+```
+/join <channel> [key]
+```
+
+Join a channel. Provide a key for `+k` (key-protected) channels.
+
+## /part
+
+```
+/part [channel] [message]
+```
+
+Leave a channel. Defaults to the active channel. The buffer is automatically closed.
+
+## /msg
+
+```
+/msg <target> <text>
+```
+
+Send a private message to a user or channel.
+
+## /me
+
+```
+/me <text>
+```
+
+Send an action (e.g., `/me waves`).
+
+## /notice
+
+```
+/notice <target> <text>
+```
+
+Send a NOTICE to a user or channel.
+
+## /nick
+
+```
+/nick <newnick>
+```
+
+Change your nickname.
+
+## /away
+
+```
+/away [message]
+```
+
+Mark yourself as away. With no args, clears away status.
+
+## /back
+
+```
+/back
+```
+
+Clear away status (alias for `/away` with no args).
+
+## /topic
+
+```
+/topic [channel] [text]
+```
+
+View or set the channel topic.
+
+## /whois
+
+```
+/whois <nick>
+```
+
+Query detailed info about a user. Shows nick, user@host, realname, channels, server, idle time, and more.
+
+## /quote
+
+```
+/quote <raw IRC line>
+```
+
+Send a raw IRC protocol line to the server.
+
+## /quit
+
+```
+/quit [message]
+```
+
+Disconnect and exit Flume.

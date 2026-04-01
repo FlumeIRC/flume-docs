@@ -1,0 +1,66 @@
+---
+title: Configuration Overview
+description: "Where Flume stores its configuration and how it's structured"
+---
+
+## File Locations
+
+| Path | Purpose |
+|------|---------|
+| `~/.config/flume/config.toml` | Main settings |
+| `~/.config/flume/irc.toml` | Network/server definitions |
+| `~/.config/flume/themes/` | Theme files |
+| `~/.config/flume/scripts/autoload/` | Scripts loaded on startup |
+| `~/.config/flume/scripts/available/` | Installed but not auto-loaded |
+| `~/.config/flume/layouts/` | Saved split layout profiles |
+| `~/.local/share/flume/vault.toml` | Encrypted secrets |
+| `~/.local/share/flume/logs/` | IRC message logs |
+| `~/.local/share/flume/sts_policies.toml` | STS policy cache |
+
+## Example config.toml
+
+```toml
+[general]
+default_nick = "mynick"
+alt_nicks = ["mynick_", "mynick__"]
+realname = "My Name"
+quit_message = "Flume IRC"
+timestamp_format = "%H:%M:%S"
+scrollback_lines = 10000
+
+[ui]
+theme = "solarized-dark"
+show_nick_list = true
+show_join_part = true
+show_hostmask_on_join = true
+
+[ui.keybindings]
+mode = "emacs"
+
+[logging]
+enabled = true
+format = "plain"
+rotate = "daily"
+
+[notifications]
+highlight_bell = true
+highlight_words = ["mynick"]
+notify_private = true
+notify_highlight = true
+
+[ctcp]
+version_reply = "Flume 1.0.0"
+respond_to_version = true
+respond_to_ping = true
+
+[llm]
+provider = "anthropic"
+model = "claude-sonnet-4-20250514"
+
+[dcc]
+enabled = false
+download_directory = "~/Downloads/flume"
+passive = true
+```
+
+All fields have sensible defaults — an empty config file works fine.

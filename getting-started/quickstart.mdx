@@ -1,0 +1,77 @@
+---
+title: Quick Start
+description: "Connect to your first IRC server in under a minute"
+---
+
+## First Launch
+
+```bash
+flume-tui
+```
+
+You'll see Flume's interface with a message suggesting you add a network.
+
+## Add a Network
+
+```
+/server add libera irc.libera.chat 6697 -tls -autoconnect
+```
+
+This adds Libera Chat with TLS on port 6697 and marks it for auto-connect on startup.
+
+## Store Credentials Securely
+
+If you have a registered nick, store your password in the encrypted vault:
+
+```
+/secure init
+/secure set libera_pass your-sasl-password
+```
+
+Then configure SASL authentication:
+
+```
+/server set libera auth_method sasl
+/server set libera sasl_username yournick
+/server set libera sasl_password ${libera_pass}
+```
+
+The `${libera_pass}` syntax references the vault secret — your password is never stored in plain text.
+
+## Save and Connect
+
+```
+/save
+/connect libera
+```
+
+## Join Channels
+
+```
+/join #flume
+/join #rust
+```
+
+## Navigate
+
+| Key | Action |
+|-----|--------|
+| `Alt+1-9` | Jump to buffer by number |
+| `Alt+Left/Right` | Cycle buffers |
+| `Ctrl+X` | Cycle servers |
+| `PageUp/Down` | Scroll |
+| `Tab` | Nick completion |
+
+Or use `/go`:
+
+```
+/go #rust
+/go 3
+```
+
+## Next Steps
+
+- [Configure your setup](/configuration/overview)
+- [Learn the commands](/commands/chat)
+- [Write a script](/scripting/overview)
+- [Generate with AI](/commands/generate)

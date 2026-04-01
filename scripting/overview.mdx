@@ -1,0 +1,60 @@
+---
+title: Scripting Overview
+description: "Extend Flume with Lua and Python scripts"
+---
+
+Flume has a dual scripting engine supporting both **Lua 5.4** and **Python 3.10+**. Both languages share the same API surface — a script written in Lua is trivially portable to Python.
+
+## How It Works
+
+Scripts register event handlers and custom commands through the `flume` module. When IRC events occur, Flume calls your handlers. Scripts can also queue actions (send messages, print to buffers, show notifications) that Flume processes on the next tick.
+
+## Script Directories
+
+| Directory | Purpose |
+|-----------|---------|
+| `~/.config/flume/scripts/autoload/` | Loaded automatically on startup |
+| `~/.config/flume/scripts/available/` | Installed but not auto-loaded |
+| `~/.config/flume/scripts/generated/` | Created by `/generate script` |
+
+## Managing Scripts
+
+```
+/script load highlight       # load by name from scripts dirs
+/script load /path/to/my.lua # load by path
+/script unload highlight     # unload
+/script reload highlight     # reload from disk
+/script list                 # list loaded scripts and commands
+```
+
+## Your First Script
+
+**Lua** (`~/.config/flume/scripts/autoload/hello.lua`):
+```lua
+flume.event.on("message", function(e)
+    if e.text:find("!hello") then
+        flume.channel.say(e.server, e.channel, "Hello, " .. e.nick .. "!")
+    end
+end)
+```
+
+**Python** (`~/.config/flume/scripts/autoload/hello.py`):
+```python
+import flume
+
+def on_message(e):
+    if "!hello" in e.get("text", ""):
+        flume.channel.say(e["server"], e["channel"], f"Hello, {e['nick']}!")
+
+flume.event.on("message", on_message)
+```
+
+## Don't Know How to Code?
+
+Use `/generate script` to have an AI write the script for you:
+
+```
+/generate script respond with a greeting when someone says hello
+```
+
+See [LLM Generation](/commands/generate) for setup.

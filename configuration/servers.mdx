@@ -1,0 +1,72 @@
+---
+title: Servers
+description: "Configure IRC networks and servers"
+---
+
+## irc.toml
+
+Networks are defined in `~/.config/flume/irc.toml`:
+
+```toml
+[[network]]
+name = "libera"
+address = "irc.libera.chat"
+port = 6697
+tls = true
+auth_method = "sasl"
+sasl_mechanism = "PLAIN"
+sasl_username = "mynick"
+sasl_password = "${libera_pass}"
+autojoin = ["#rust", "#flume"]
+autoconnect = true
+
+[[network]]
+name = "efnet"
+address = "irc.efnet.org"
+port = 6667
+tls = false
+auth_method = "none"
+autojoin = ["#test"]
+```
+
+## Fields
+
+| Field | Default | Description |
+|-------|---------|-------------|
+| `name` | required | Display name for the network |
+| `address` | required | Server hostname |
+| `port` | `6697` | Port number |
+| `tls` | `true` | Use TLS encryption |
+| `auth_method` | `"none"` | `"none"`, `"sasl"`, or `"nickserv"` |
+| `sasl_mechanism` | `"PLAIN"` | `"PLAIN"`, `"SCRAM-SHA-256"`, or `"EXTERNAL"` |
+| `sasl_username` | `""` | SASL username |
+| `sasl_password` | `""` | SASL password (use `${secret}` for vault) |
+| `nickserv_password` | `""` | NickServ password (use `${secret}` for vault) |
+| `nick` | from general | Override default nick for this network |
+| `autojoin` | `[]` | Channels to join on connect |
+| `autoconnect` | `false` | Connect automatically on startup |
+| `bouncer` | `"none"` | `"none"`, `"znc"`, or `"soju"` |
+| `playback` | `true` | Enable bouncer buffer playback |
+
+## Managing Servers at Runtime
+
+```
+/server add libera irc.libera.chat 6697 -tls -autoconnect
+/server set libera auth_method sasl
+/server set libera sasl_username mynick
+/server set libera sasl_password ${libera_pass}
+/server list
+/server remove efnet
+/save
+```
+
+## Vault References
+
+Use `${secret_name}` syntax to reference secrets stored in the vault:
+
+```
+/secure set libera_pass my-actual-password
+/server set libera sasl_password ${libera_pass}
+```
+
+The password is resolved from the vault at connect time — never stored in plain text in config files.

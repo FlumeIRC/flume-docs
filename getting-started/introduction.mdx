@@ -1,0 +1,38 @@
+---
+title: Introduction
+description: "What is Flume and why use it"
+---
+
+# Flume
+
+Flume is a modern, fast, terminal-based IRC client built in Rust.
+
+## Why Flume?
+
+- **Fast** — sub-millisecond rendering, async I/O across all connections
+- **Multi-server** — connect to multiple IRC networks simultaneously
+- **Full IRCv3** — message-tags, SASL, server-time, STS, with graceful degradation to RFC 1459/2812
+- **Scriptable** — dual Lua and Python scripting with a unified API
+- **AI-powered** — generate scripts, themes, and layouts from natural language
+- **DCC** — file transfers, DCC CHAT, XDCC bot support
+- **Themeable** — hot-reloadable themes with nick coloring
+- **Split views** — side-by-side buffers with saveable layouts
+- **Vi and Emacs** — choose your keybinding mode
+- **Secure** — encrypted vault for passwords and API keys
+
+## Architecture
+
+Flume is built as two Rust crates:
+
+- **flume-core** — IRC protocol, connection management, scripting engine, DCC, LLM client
+- **flume-tui** — terminal UI built with Ratatui, input handling, theming
+
+## Supported Platforms
+
+- macOS (Apple Silicon and Intel)
+- Linux (x86_64, aarch64)
+- FreeBSD
+
+## License
+
+BSD-3-Clause

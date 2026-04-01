@@ -15,8 +15,8 @@
   "navbar": {
     "links": [
       {
-        "label": "GitHub",
-        "url": "https://github.com/FlumeIRC/flume"
+        "type": "github",
+        "href": "https://github.com/FlumeIRC/flume"
       }
     ]
   },

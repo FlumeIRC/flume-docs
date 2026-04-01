@@ -6,15 +6,39 @@ description: "Configure and manage IRC network connections"
 ## /server add
 
 ```
-/server add <name> <address> [port] [-tls|-notls] [-autoconnect]
+/server add <name> <address> [port] [options]
 ```
 
 Add a network to your configuration.
 
+**Options:**
+
+| Flag | Description |
+|------|-------------|
+| `-tls` | Enable TLS encryption |
+| `-notls` | Disable TLS (plain TCP) |
+| `-autoconnect` | Connect automatically on startup |
+| `-username <user>` | IRC username (appears in hostmask) |
+| `-password <pass>` | Server password (IRC PASS command) |
+| `-nick <nick>` | Override default nick for this network |
+
+**Examples:**
+
 ```
+# Basic
 /server add libera irc.libera.chat 6697 -tls -autoconnect
+
+# With credentials (using vault secret)
+/server add libera irc.libera.chat 6697 -tls -autoconnect -username mynick -password ${libera_pass}
+
+# Plain TCP, no TLS
 /server add efnet irc.efnet.org 6667 -notls
+
+# With custom nick
+/server add testnet irc.test.com 6697 -tls -nick testbot
 ```
+
+The `-password` flag sets the IRC PASS command (sent on connect). Use `${secret_name}` to reference vault secrets. For SASL or NickServ auth, use `/server set` after adding.
 
 ## /server remove
 
@@ -40,18 +64,44 @@ List all configured networks.
 
 Set a field on a network. Available fields:
 
-| Key | Example |
-|-----|---------|
-| `address` | `irc.libera.chat` |
-| `port` | `6697` |
-| `tls` | `true` |
-| `auth_method` | `sasl`, `nickserv`, `none` |
-| `sasl_username` | `mynick` |
-| `sasl_password` | `${libera_pass}` |
-| `nick` | `mynick` |
-| `autojoin` | `#rust, #flume` |
-| `autoconnect` | `true` |
-| `bouncer` | `znc`, `soju`, `none` |
+| Key | Example | Description |
+|-----|---------|-------------|
+| `address` | `irc.libera.chat` | Server hostname |
+| `port` | `6697` | Port number |
+| `tls` | `true` | TLS on/off |
+| `password` | `${server_pass}` | Server password (PASS command) |
+| `username` | `myuser` | IRC username (hostmask) |
+| `nick` | `mynick` | Nick override |
+| `auth_method` | `sasl` | `sasl`, `nickserv`, or `none` |
+| `sasl_username` | `mynick` | SASL username |
+| `sasl_password` | `${libera_pass}` | SASL password |
+| `nickserv_password` | `${libera_pass}` | NickServ password |
+| `autojoin` | `#rust, #flume` | Channels to join |
+| `autoconnect` | `true` | Auto-connect on startup |
+| `bouncer` | `znc` | `znc`, `soju`, or `none` |
+
+### Authentication Examples
+
+**SASL (recommended for Libera Chat):**
+```
+/secure set libera_pass my-password
+/server set libera auth_method sasl
+/server set libera sasl_username mynick
+/server set libera sasl_password ${libera_pass}
+```
+
+**NickServ:**
+```
+/server set libera auth_method nickserv
+/server set libera nickserv_password ${libera_pass}
+```
+
+**Server password (PASS command):**
+```
+/server set myserver password ${server_pass}
+```
+
+All password fields support `${secret_name}` vault references.
 
 ## /connect
 
@@ -75,4 +125,4 @@ Disconnect the active server.
 /save
 ```
 
-Save the current configuration to disk.
+Save the current network configuration to disk (`~/.config/flume/irc.toml`).

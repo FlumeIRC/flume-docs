@@ -13,27 +13,37 @@ You'll see Flume's interface with a message suggesting you add a network.
 
 ## Add a Network
 
+The simplest way — everything in one command:
+
 ```
 /server add libera irc.libera.chat 6697 -tls -autoconnect
 ```
 
-This adds Libera Chat with TLS on port 6697 and marks it for auto-connect on startup.
+### With Credentials
 
-## Store Credentials Securely
-
-If you have a registered nick, store your password in the encrypted vault:
+Store your password in the encrypted vault, then reference it with `${name}`:
 
 ```
 /secure init
-/secure set libera_pass your-sasl-password
+/secure set libera_pass your-password
+/server add libera irc.libera.chat 6697 -tls -autoconnect -username mynick -password ${libera_pass}
 ```
 
-Then configure SASL authentication:
+### SASL Authentication
+
+For networks that require SASL (like Libera Chat):
 
 ```
 /server set libera auth_method sasl
-/server set libera sasl_username yournick
+/server set libera sasl_username mynick
 /server set libera sasl_password ${libera_pass}
+```
+
+### NickServ Authentication
+
+```
+/server set libera auth_method nickserv
+/server set libera nickserv_password ${libera_pass}
 ```
 
 The `${libera_pass}` syntax references the vault secret — your password is never stored in plain text.

@@ -37,6 +37,8 @@ autojoin = ["#test"]
 | `address` | required | Server hostname |
 | `port` | `6697` | Port number |
 | `tls` | `true` | Use TLS encryption |
+| `password` | `""` | Server password (IRC PASS command, use `${secret}` for vault) |
+| `username` | from general | IRC username (appears in hostmask) |
 | `auth_method` | `"none"` | `"none"`, `"sasl"`, or `"nickserv"` |
 | `sasl_mechanism` | `"PLAIN"` | `"PLAIN"`, `"SCRAM-SHA-256"`, or `"EXTERNAL"` |
 | `sasl_username` | `""` | SASL username |
@@ -51,7 +53,7 @@ autojoin = ["#test"]
 ## Managing Servers at Runtime
 
 ```
-/server add libera irc.libera.chat 6697 -tls -autoconnect
+/server add libera irc.libera.chat 6697 -tls -autoconnect -username mynick -password ${libera_pass}
 /server set libera auth_method sasl
 /server set libera sasl_username mynick
 /server set libera sasl_password ${libera_pass}

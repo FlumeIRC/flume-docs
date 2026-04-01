@@ -21,7 +21,14 @@ Shows every setting currently in your config file.
 /set general
 ```
 
-Shows all settings in a section.
+Shows all settings in a section. If no custom values are set, shows the defaults:
+
+```
+[logging]: (all defaults)
+  logging.enabled = true (default)
+  logging.format = "plain" (default)
+  logging.rotate = "daily" (default)
+```
 
 ## View a Single Setting
 
@@ -29,6 +36,8 @@ Shows all settings in a section.
 /set ui.theme
 /set general.default_nick
 ```
+
+Shows the current value, or the default if not explicitly set.
 
 Shows the current value, or "(using default)" if not explicitly set.
 

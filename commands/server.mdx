@@ -125,4 +125,8 @@ Disconnect the active server.
 /save
 ```
 
-Save the current network configuration to disk (`~/.config/flume/irc.toml`).
+Saves both configuration files:
+- `~/.config/flume/irc.toml` — network configurations
+- `~/.config/flume/config.toml` — UI settings (theme, show_join_part, etc.)
+
+Runtime changes made via `/set` and `/theme` are persisted by `/save`.

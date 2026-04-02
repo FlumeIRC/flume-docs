@@ -91,6 +91,52 @@ Query detailed info about a user. Shows nick, user@host, realname, channels, ser
 
 Send a raw IRC protocol line to the server.
 
+## /color
+
+```
+/color <color> <text>
+```
+
+Send a message with colored text. Color can be a name (`red`, `blue`, `green`, etc.) or a mIRC number (0-15).
+
+```
+/color red Watch out!
+/color 4 This is also red
+/color lightblue Hello world
+```
+
+## /colors
+
+```
+/colors
+```
+
+Show all available color names and their previews.
+
+## IRC Formatting Shortcuts
+
+You can use formatting shortcuts anywhere in your messages:
+
+| Shortcut | Effect |
+|----------|--------|
+| `%B` | **Bold** |
+| `%I` | *Italic* |
+| `%U` | Underline |
+| `%R` | Reverse (swap fg/bg) |
+| `%O` | Reset all formatting |
+| `%C<color>` | Set foreground color |
+| `%C<fg>,<bg>` | Set foreground and background |
+
+Colors can be names or numbers:
+```
+%Cred Hello %O           → red "Hello"
+%C4 Hello %O             → red "Hello" (by number)
+%Cblue,white text %O     → blue on white
+%Bbold %Iand italic%O    → bold and italic
+```
+
+Use `%%` for a literal percent sign.
+
 ## /quit
 
 ```

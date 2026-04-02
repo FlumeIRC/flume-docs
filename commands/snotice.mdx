@@ -60,6 +60,36 @@ Snotice rules:
   2: match="Oper-up" suppress
 ```
 
+## Suppressing by Literal Text
+
+```
+/snotice suppress <text>
+```
+
+Shorthand for adding a suppress rule with an auto-escaped regex. Useful when the notice text contains regex-special characters that would be tedious to escape manually.
+
+```
+/snotice suppress Oper-up notice from admin
+```
+
+This is equivalent to:
+```
+/snotice add --match "Oper\-up notice from admin" --suppress
+```
+
+## Viewing Recent Notices
+
+```
+/snotice last [--route --buffer <name>] [--format <fmt>]
+```
+
+Show the most recent raw server notice. Useful for crafting regex patterns — see the raw text, then build a rule from it.
+
+With `--route`, takes the last notice and creates a routing rule for it:
+```
+/snotice last --route --buffer snotice-conn --format "[connect] ${1}"
+```
+
 ## Removing Rules
 
 ```

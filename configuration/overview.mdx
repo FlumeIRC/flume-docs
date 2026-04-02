@@ -72,6 +72,14 @@ model = "claude-sonnet-4-20250514"
 enabled = false
 download_directory = "~/Downloads/flume"
 passive = true
+
+[combos]
+alert = "%B%Cred,white"
+info = "%Ccyan"
+
+[combos.rainbow]
+type = "cycle"
+colors = ["red", "orange", "yellow", "green", "cyan", "blue", "purple", "pink"]
 ```
 
 All fields have sensible defaults — an empty config file works fine.

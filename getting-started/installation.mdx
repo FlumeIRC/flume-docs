@@ -33,6 +33,25 @@ brew install FlumeIRC/tap/flume
 yay -S flume
 ```
 
+## Debian / Ubuntu
+
+Download the `.deb` from the [Releases](https://github.com/FlumeIRC/flume/releases) page:
+
+```bash
+sudo dpkg -i flume_1.2.0_amd64.deb
+```
+
+## Fedora / RHEL
+
+Build from the RPM spec included in the repo:
+
+```bash
+git clone https://github.com/FlumeIRC/flume.git
+cd flume
+bash packaging/rpm/build-rpm.sh
+sudo rpm -i ~/rpmbuild/RPMS/x86_64/flume-*.rpm
+```
+
 ## FreeBSD
 
 ```bash
@@ -42,6 +61,11 @@ pkg install flume
 ## Pre-built Binaries
 
 Download from the [GitHub Releases](https://github.com/FlumeIRC/flume/releases) page.
+
+Available for:
+- macOS (Apple Silicon, Intel)
+- Linux (x86_64, ARM64)
+- Debian/Ubuntu (.deb)
 
 Available for:
 - macOS (Apple Silicon)

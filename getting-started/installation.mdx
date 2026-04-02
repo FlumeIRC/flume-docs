@@ -70,9 +70,16 @@ Available for both `x86_64` and `aarch64`.
 
 ## FreeBSD
 
+Build from the port files included in the repo:
+
 ```bash
-pkg install flume
+cd flume/packaging/freebsd
+make install clean
 ```
+
+<Note>
+A FreeBSD ports submission is planned. In the meantime, build from source or use the port Makefile above.
+</Note>
 
 ## Pre-built Binaries
 
@@ -82,8 +89,4 @@ Available for:
 - macOS (Apple Silicon, Intel)
 - Linux (x86_64, ARM64)
 - Debian/Ubuntu (.deb)
-
-Available for:
-- macOS (Apple Silicon)
-- macOS (Intel)
-- Linux (x86_64)
+- Fedora/RHEL (.rpm)

@@ -137,6 +137,77 @@ Colors can be names or numbers:
 
 Use `%%` for a literal percent sign.
 
+## Color Combos
+
+Define reusable color shortcuts that you can use in any message with `%name%text%O` syntax.
+
+### Built-in Combos
+
+- `%rainbow%` — cycles through red, orange, yellow, green, cyan, blue, purple, pink
+
+### Managing Combos
+
+```
+/color combo list
+```
+
+Show all defined combos.
+
+```
+/color combo add <name> <format>
+```
+
+Add a static combo using formatting shortcuts:
+```
+/color combo add alert %B%Cred,white
+/color combo add info %Ccyan
+/color combo add fire %B%Corange,red
+```
+
+```
+/color combo add <name> cycle <color1> <color2> ...
+```
+
+Add a cycling combo that applies a different color to each character:
+```
+/color combo add pride cycle red orange yellow green blue purple
+/color combo add usa cycle red white blue
+```
+
+```
+/color combo remove <name>
+```
+
+Remove a combo.
+
+```
+/color combo test <name> <text>
+```
+
+Preview a combo without sending a message.
+
+### Using Combos
+
+Use `%name%` in any message to apply the combo, and `%O` to reset:
+```
+%rainbow%Hello world!%O
+%alert%WARNING:%O server restarting
+```
+
+### Config File
+
+Combos are saved to `config.toml` via `/save`:
+
+```toml
+[combos]
+alert = "%B%Cred,white"
+info = "%Ccyan"
+
+[combos.rainbow]
+type = "cycle"
+colors = ["red", "orange", "yellow", "green", "cyan", "blue", "purple", "pink"]
+```
+
 ## /quit
 
 ```

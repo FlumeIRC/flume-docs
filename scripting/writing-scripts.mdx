@@ -1,0 +1,369 @@
+---
+title: Writing Scripts
+description: "Complete guide to writing Flume scripts with practical examples"
+---
+
+This guide walks you through writing scripts for Flume, from basic event handling to advanced patterns like custom commands with help text, persistent config, buffer management, and more.
+
+## Script Structure
+
+Every script follows the same pattern:
+1. Import the `flume` module (Python only — Lua has it globally)
+2. Register event handlers and/or custom commands
+3. Flume calls your handlers when events occur
+
+**Lua:**
+```lua
+-- my_script.lua
+flume.event.on("message", function(e)
+    -- handle the event
+end)
+
+flume.command.register("mycommand", function(args)
+    -- handle the command
+end, "Help text for /mycommand")
+```
+
+**Python:**
+```python
+# my_script.py
+import flume
+
+def on_message(e):
+    # handle the event
+    pass
+
+flume.event.on("message", on_message)
+
+def my_command(args):
+    # handle the command
+    pass
+
+flume.command.register("mycommand", my_command, "Help text for /mycommand")
+```
+
+## Custom Commands with Help
+
+The third argument to `flume.command.register` is the help text shown when users type `/help <command>`:
+
+**Lua:**
+```lua
+flume.command.register("weather", function(args)
+    if args == "" then
+        flume.buffer.print("", "", "Usage: /weather <city>")
+        return
+    end
+    flume.buffer.print("", "", "Checking weather for " .. args .. "...")
+    -- your logic here
+end, "Check weather for a city. Usage: /weather <city>")
+```
+
+**Python:**
+```python
+def weather(args):
+    if not args.strip():
+        flume.buffer.print("", "", "Usage: /weather <city>")
+        return
+    flume.buffer.print("", "", f"Checking weather for {args}...")
+
+flume.command.register("weather", weather, "Check weather for a city. Usage: /weather <city>")
+```
+
+Now `/help weather` shows: `/weather — Check weather for a city. Usage: /weather <city>`
+
+## Printing to Buffers
+
+`flume.buffer.print(server, buffer, text)` prints a message to a specific buffer.
+
+Use empty strings `""` for the active server/buffer:
+
+```lua
+-- Print to the active buffer
+flume.buffer.print("", "", "Hello!")
+
+-- Print to a specific channel on the active server
+flume.buffer.print("", "#flume", "Message to #flume")
+
+-- Print to a specific server and channel
+flume.buffer.print("libera", "#rust", "Message to libera/#rust")
+```
+
+## Switching Buffers
+
+```lua
+flume.buffer.switch("#flume")
+```
+
+## Sending Messages
+
+```lua
+-- Send a channel message
+flume.channel.say("", "#flume", "Hello everyone!")
+
+-- Send to a specific server
+flume.channel.say("libera", "#rust", "Hello from a script!")
+
+-- Join/part channels
+flume.channel.join("", "#newchannel")
+flume.channel.part("", "#oldchannel", "Goodbye!")
+```
+
+## Persistent Script Config
+
+Scripts can store and retrieve configuration values that persist across sessions using `flume.config.get/set`. Each script gets its own config file at `~/.local/share/flume/scripts/data/<scriptname>/config.toml`.
+
+**Lua:**
+```lua
+-- Save a value
+flume.config.set("api_key", "abc123")
+flume.config.set("enabled", true)
+flume.config.set("max_results", 10)
+
+-- Read a value (returns nil if not set)
+local key = flume.config.get("api_key")
+local enabled = flume.config.get("enabled")
+
+-- Use with a default
+local limit = flume.config.get("max_results") or 5
+```
+
+**Python:**
+```python
+# Save a value
+flume.config.set("api_key", "abc123")
+flume.config.set("enabled", True)
+
+# Read a value (returns None if not set)
+key = flume.config.get("api_key")
+limit = flume.config.get("max_results") or 5
+```
+
+## Reading Vault Secrets
+
+Scripts can read secrets stored in the encrypted vault via `flume.vault.get(name)`. This is useful for scripts that need API keys, passwords, or tokens without hardcoding them.
+
+**Store secrets first:**
+```
+/secure set x_username myuser
+/secure set x_password mypassword
+/secure set totp_seed JBSWY3DPEHPK3PXP
+```
+
+**Lua:**
+```lua
+local username = flume.vault.get("x_username")
+local password = flume.vault.get("x_password")
+local seed = flume.vault.get("totp_seed")
+
+if not username then
+    flume.buffer.print("", "", "Missing vault secret: x_username")
+    flume.buffer.print("", "", "Run: /secure set x_username <value>")
+    return
+end
+```
+
+**Python:**
+```python
+username = flume.vault.get("x_username")
+password = flume.vault.get("x_password")
+seed = flume.vault.get("totp_seed")
+
+if not username:
+    flume.buffer.print("", "", "Missing vault secret: x_username")
+    flume.buffer.print("", "", "Run: /secure set x_username <value>")
+```
+
+Returns `nil` (Lua) or `None` (Python) if the secret doesn't exist.
+
+<Warning>
+Vault secrets are read-only from scripts. Use `/secure set` to store them.
+Be careful not to print secrets to buffers — other users can see channel messages.
+</Warning>
+
+## Sending Desktop Notifications
+
+```lua
+flume.ui.notify("You were mentioned in #flume!")
+flume.ui.notify("Important alert", "warning")  -- with level
+```
+
+## Sending Raw IRC Commands
+
+For anything not covered by the API, send raw IRC protocol lines:
+
+```lua
+-- Send a raw line to the active server
+flume.server.send_raw("", "PRIVMSG NickServ :IDENTIFY mypassword")
+
+-- Send to a specific server
+flume.server.send_raw("libera", "OPER myname mypassword")
+```
+
+## Event Cancellation
+
+Scripts can cancel events to prevent them from being displayed:
+
+**Lua:**
+```lua
+-- Spam filter: hide messages containing certain words
+flume.event.on("message", function(e)
+    local blocked = {"spam", "advertisement", "buy now"}
+    for _, word in ipairs(blocked) do
+        if e.text:lower():find(word) then
+            e:cancel()
+            return
+        end
+    end
+end)
+```
+
+**Python:**
+```python
+def spam_filter(e):
+    blocked = ["spam", "advertisement", "buy now"]
+    text = e.get("text", "").lower()
+    for word in blocked:
+        if word in text:
+            e["_cancel"] = True
+            return
+
+flume.event.on("message", spam_filter)
+```
+
+## Practical Examples
+
+### Auto-Reply When Away
+
+```lua
+-- away_auto.lua — Auto-reply when mentioned while away
+local away = false
+local away_msg = "I'm away from keyboard"
+
+flume.command.register("setaway", function(args)
+    if args == "" then
+        away = not away
+        flume.buffer.print("", "", away and "Away mode ON" or "Away mode OFF")
+    else
+        away = true
+        away_msg = args
+        flume.buffer.print("", "", "Away: " .. args)
+    end
+end, "Toggle away auto-reply. /setaway [message]")
+
+flume.event.on("private_message", function(e)
+    if away then
+        flume.channel.say(e.server, e.nick, away_msg)
+    end
+end)
+```
+
+### Channel Logger
+
+```lua
+-- chanlog.lua — Log specific channels to per-script config
+flume.event.on("message", function(e)
+    local channels = flume.config.get("channels") or ""
+    if channels:find(e.channel) then
+        local line = os.date("%Y-%m-%d %H:%M:%S") .. " <" .. e.nick .. "> " .. e.text
+        flume.buffer.print("", "", "[log] " .. line)
+    end
+end)
+
+flume.command.register("logchan", function(args)
+    if args == "" then
+        local channels = flume.config.get("channels") or "(none)"
+        flume.buffer.print("", "", "Logging channels: " .. channels)
+    else
+        flume.config.set("channels", args)
+        flume.buffer.print("", "", "Now logging: " .. args)
+    end
+end, "Set channels to log. /logchan #chan1 #chan2")
+```
+
+### Nick Highlighter with Sound
+
+```lua
+-- nickalert.lua — Extra alerts for specific nicks
+flume.event.on("message", function(e)
+    local watch_list = flume.config.get("nicks") or ""
+    for nick in watch_list:gmatch("%S+") do
+        if e.nick:lower() == nick:lower() then
+            flume.ui.notify(e.nick .. " said: " .. e.text)
+            flume.buffer.print(e.server, e.channel,
+                "[alert] " .. e.nick .. ": " .. e.text)
+        end
+    end
+end)
+
+flume.command.register("watchnick", function(args)
+    if args == "" then
+        local nicks = flume.config.get("nicks") or "(none)"
+        flume.buffer.print("", "", "Watching: " .. nicks)
+    else
+        flume.config.set("nicks", args)
+        flume.buffer.print("", "", "Now watching: " .. args)
+    end
+end, "Watch for messages from specific nicks. /watchnick nick1 nick2")
+```
+
+### Python: URL Title Fetcher (with pip packages)
+
+Python scripts have full import access — use any pip package:
+
+```python
+# urltitle.py — Fetch and display URL titles
+import flume
+import re
+
+try:
+    import requests
+    from bs4 import BeautifulSoup
+    HAS_DEPS = True
+except ImportError:
+    HAS_DEPS = False
+
+URL_RE = re.compile(r'https?://\S+')
+
+def on_message(e):
+    if not HAS_DEPS:
+        return
+    urls = URL_RE.findall(e.get("text", ""))
+    for url in urls[:2]:  # max 2 per message
+        try:
+            resp = requests.get(url, timeout=5, headers={"User-Agent": "Flume IRC"})
+            soup = BeautifulSoup(resp.text, "html.parser")
+            title = soup.title.string.strip() if soup.title else None
+            if title:
+                flume.buffer.print(e["server"], e["channel"],
+                    f"[title] {title}")
+        except Exception:
+            pass
+
+flume.event.on("message", on_message)
+
+def check_deps(args):
+    if HAS_DEPS:
+        flume.buffer.print("", "", "urltitle: dependencies OK (requests, beautifulsoup4)")
+    else:
+        flume.buffer.print("", "", "urltitle: missing deps. Run: pip install requests beautifulsoup4")
+
+flume.command.register("urltitle", check_deps, "Check URL title fetcher dependencies")
+```
+
+## Managing Autoload
+
+```
+/script load myscript          # load a script
+/script autoload myscript      # symlink into autoload dir (loads on startup)
+/script noautoload myscript    # remove from autoload
+/script unload myscript        # unload from current session
+/script list                   # see loaded scripts and their commands
+```
+
+## Debugging Tips
+
+- Use `flume.buffer.print("", "", "debug: " .. variable)` to print debug info
+- Check `/script list` to verify your script loaded
+- Check the Flume log at `~/.local/share/flume/logs/flume.log` for errors
+- Reload after changes: `/script reload myscript`
+- Python import errors show as load failures — check that deps are installed

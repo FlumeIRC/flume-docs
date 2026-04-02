@@ -95,6 +95,23 @@ Server operations.
 |----------|-------------|
 | `flume.server.send_raw(server, line)` | Send a raw IRC line |
 
+## flume.vault
+
+Read-only access to encrypted vault secrets.
+
+| Function | Description |
+|----------|-------------|
+| `flume.vault.get(name)` | Read a vault secret (returns nil/None if not found) |
+
+Store secrets with `/secure set name value`. Scripts can read but not modify vault values.
+
+```lua
+local api_key = flume.vault.get("my_api_key")
+if not api_key then
+    flume.buffer.print("", "", "Run: /secure set my_api_key <value>")
+end
+```
+
 ## flume.ui
 
 UI operations.

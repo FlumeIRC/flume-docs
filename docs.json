@@ -49,6 +49,7 @@
         "group": "Scripting",
         "pages": [
           "scripting/overview",
+          "scripting/writing-scripts",
           "scripting/api-reference",
           "scripting/events",
           "scripting/lua-guide",

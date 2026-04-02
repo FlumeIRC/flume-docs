@@ -35,22 +35,38 @@ yay -S flume
 
 ## Debian / Ubuntu
 
-Download the `.deb` from the [Releases](https://github.com/FlumeIRC/flume/releases) page:
+Add the Flume package repository:
+
+```bash
+curl -fsSL https://pkg.flumeirc.io/gpg/flume-signing-key.asc | sudo gpg --dearmor -o /usr/share/keyrings/flume.gpg
+echo "deb [signed-by=/usr/share/keyrings/flume.gpg] https://pkg.flumeirc.io/apt stable main" | sudo tee /etc/apt/sources.list.d/flume.list
+sudo apt update && sudo apt install flume
+```
+
+Or install a `.deb` directly from the [Releases](https://github.com/FlumeIRC/flume/releases) page:
 
 ```bash
 sudo dpkg -i flume_1.2.2_amd64.deb
 ```
 
-## Fedora / RHEL
+Available for both `amd64` and `arm64`.
 
-Build from the RPM spec included in the repo:
+## Fedora / RHEL / CentOS
+
+Add the Flume RPM repository:
 
 ```bash
-git clone https://github.com/FlumeIRC/flume.git
-cd flume
-bash packaging/rpm/build-rpm.sh
-sudo rpm -i ~/rpmbuild/RPMS/x86_64/flume-*.rpm
+sudo dnf config-manager --add-repo https://pkg.flumeirc.io/rpm/flume.repo
+sudo dnf install flume
 ```
+
+Or install an `.rpm` directly from the [Releases](https://github.com/FlumeIRC/flume/releases) page:
+
+```bash
+sudo rpm -i flume-1.2.2-1.x86_64.rpm
+```
+
+Available for both `x86_64` and `aarch64`.
 
 ## FreeBSD
 

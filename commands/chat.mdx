@@ -208,6 +208,47 @@ type = "cycle"
 colors = ["red", "orange", "yellow", "green", "cyan", "blue", "purple", "pink"]
 ```
 
+## /alias
+
+```
+/alias [name] [command]
+```
+
+Create command aliases — shortcuts that expand to longer commands.
+
+```
+/alias ns /msg nickserv@services.network.net
+/alias cs /msg chanserv@services.network.net
+/alias wc /close
+```
+
+Then `/ns identify mypassword` expands to `/msg nickserv@services.network.net identify mypassword`.
+
+```
+/alias                — list all aliases
+/alias remove <name>  — remove an alias
+```
+
+Aliases are persisted via `/save` as an `[aliases]` section in `config.toml`:
+
+```toml
+[aliases]
+ns = "/msg nickserv@services.network.net"
+cs = "/msg chanserv@services.network.net"
+```
+
+## /mouse
+
+```
+/mouse [enable|disable]
+```
+
+Toggle mouse support. When enabled:
+- **Click** buffer names in the sidebar to switch
+- **Scroll wheel** in the chat area to scroll history
+
+Mouse is off by default. Persisted via `/save` or `ui.mouse = true` in `config.toml`.
+
 ## /quit
 
 ```

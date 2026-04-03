@@ -90,13 +90,28 @@ With `--route`, takes the last notice and creates a routing rule for it:
 /snotice last --route --buffer snotice-conn --format "[connect] ${1}"
 ```
 
+## Testing Rules
+
+```
+/snotice test <notice text>
+```
+
+Test your rules against a sample notice to see which rule matches and what the output would be. Paste the exact notice text.
+
 ## Removing Rules
 
 ```
-/snotice remove <number>
+/snotice remove <number or range>
 ```
 
-Remove by the index shown in `/snotice list`.
+Remove by the index shown in `/snotice list`. Supports single numbers, ranges, and comma-separated combinations:
+
+```
+/snotice remove 3
+/snotice remove 3-7
+/snotice remove 1,4,5
+/snotice remove 1,3-5,8
+```
 
 ## Saving Rules
 
@@ -169,5 +184,5 @@ Regex capture groups are available as variables in the format string:
 ```
 
 <Note>
-Rules take effect immediately on add/remove — no restart needed. Use `/snotice save` to persist across sessions.
+Rules take effect immediately on add/remove — no restart needed. Use `/snotice save` to persist across sessions. Flume detects duplicate patterns and will tell you if a rule already exists. `/snotice last` shows the most recent notice from the **active server** only.
 </Note>

@@ -68,7 +68,7 @@ Available for both `amd64` and `arm64`.
 Add the Flume RPM repository:
 
 ```bash
-sudo dnf config-manager --add-repo https://pkg.flumeirc.io/rpm/flume.repo
+sudo curl -o /etc/yum.repos.d/flume.repo https://pkg.flumeirc.io/rpm/flume.repo
 sudo dnf install flume
 ```
 

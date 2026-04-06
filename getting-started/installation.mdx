@@ -65,14 +65,30 @@ Available for both `amd64` and `arm64`.
 
 ## Fedora / RHEL / CentOS
 
-Add the Flume RPM repository:
+### Fedora 39+ / RHEL 9+ (DNF5)
 
 ```bash
 sudo curl -o /etc/yum.repos.d/flume.repo https://pkg.flumeirc.io/rpm/flume.repo
 sudo dnf install flume
 ```
 
-Or install an `.rpm` directly from the [Releases](https://github.com/FlumeIRC/flume/releases) page:
+### Fedora 38 and older / RHEL 8 / CentOS Stream (DNF4)
+
+```bash
+sudo dnf config-manager --add-repo https://pkg.flumeirc.io/rpm/flume.repo
+sudo dnf install flume
+```
+
+### RHEL 7 / CentOS 7 (Yum)
+
+```bash
+sudo yum-config-manager --add-repo https://pkg.flumeirc.io/rpm/flume.repo
+sudo yum install flume
+```
+
+### Manual install
+
+Download an `.rpm` from the [Releases](https://github.com/FlumeIRC/flume/releases) page:
 
 ```bash
 sudo rpm -i flume-1.2.4-1.x86_64.rpm

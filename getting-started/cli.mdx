@@ -1,0 +1,38 @@
+---
+title: Command-Line Options
+description: "CLI flags for the flume binary"
+---
+
+Flume accepts a few command-line options for one-off launches and overrides.
+
+## Options
+
+| Flag | Description |
+|------|-------------|
+| `-v`, `--version` | Print version and exit |
+| `-h`, `--help` | Show help and exit |
+| `-s`, `--server <name>` | Connect to a specific server on startup (overrides `autoconnect`) |
+| `-n`, `--nick <nick>` | Override the default nickname for all servers |
+| `-x`, `--no-autoconnect` | Don't auto-connect to any servers |
+| `--no-autoload-scripts` | Don't auto-load scripts on startup |
+
+## Examples
+
+```bash
+flume                           # normal startup
+flume --version                 # print version
+flume --help                    # show usage
+
+flume -s libera                 # connect only to "libera" network
+flume -n testnick               # use "testnick" as default nick
+flume -x                        # start without auto-connecting
+flume --no-autoload-scripts     # debug a misbehaving script
+flume -x --no-autoload-scripts  # minimal startup, no servers, no scripts
+```
+
+## Environment Variables
+
+| Variable | Effect |
+|----------|--------|
+| `FLUME_VAULT_PASS` | Auto-unlock the vault on startup with this passphrase |
+| `PYO3_USE_ABI3_FORWARD_COMPATIBILITY` | Set to `1` when building with newer Python versions (3.14+) |

@@ -229,6 +229,16 @@ Then `/ns identify mypassword` expands to `/msg nickserv@services.network.net id
 /alias remove <name>  — remove an alias
 ```
 
+### Argument Placement with `$*`
+
+By default, alias arguments are appended after the expansion with a space. For more control over where arguments go, use `$*`:
+
+```
+/alias chatops /quote chatops :$*
+```
+
+Then `/chatops server is being updated` expands to `/quote chatops :server is being updated` — the colon sits directly against the text with no extra space, which some IRC commands require.
+
 Aliases are persisted via `/save` as an `[aliases]` section in `config.toml`:
 
 ```toml

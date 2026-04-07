@@ -15,12 +15,32 @@ Themes are TOML files in `~/.local/share/flume/themes/`.
 
 ## Shipped Themes
 
-Flume ships with three themes in `examples/themes/`:
+Flume ships with five themes in `examples/themes/`:
 - `solarized-dark`
 - `gruvbox-dark`
 - `catppuccin-mocha`
+- `catppuccin-glass` — transparent variant
+- `miasma` — dark organic palette
+- `miasma-glass` — transparent variant
 
 Copy them to your themes directory to use them.
+
+## Transparent Backgrounds
+
+Add `transparent = true` to a theme's `[meta]` section to make all backgrounds use the terminal's default (showing through to your wallpaper or background image):
+
+```toml
+[meta]
+name = "my-glass"
+transparent = true
+
+[elements]
+# foreground colors still apply normally
+chat_message = "#cdd6f4"
+# ... but all _bg colors become Color::Reset
+```
+
+Works with any terminal that supports transparency (iTerm2, Kitty, Alacritty, WezTerm, Ghostty with `background-opacity`). Set your terminal's transparency/blur to taste.
 
 ## Theme Format
 

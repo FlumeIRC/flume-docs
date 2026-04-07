@@ -28,7 +28,8 @@
           "getting-started/introduction",
           "getting-started/installation",
           "getting-started/quickstart",
-          "getting-started/keybindings"
+          "getting-started/keybindings",
+          "getting-started/cli"
         ]
       },
       {
@@ -64,6 +65,7 @@
           "commands/channels",
           "commands/navigation",
           "commands/splits",
+          "commands/groups",
           "commands/scripts",
           "commands/generate",
           "commands/dcc",

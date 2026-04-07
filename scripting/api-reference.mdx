@@ -5,6 +5,21 @@ description: "Complete Flume Script API for Lua and Python"
 
 All functions are accessed through the `flume` module.
 
+## flume.version
+
+The running Flume version as a string (e.g. `"1.2.5"`). Useful for gating script features on a minimum version.
+
+**Lua:**
+```lua
+flume.buffer.print("", "", "Running Flume " .. flume.version)
+```
+
+**Python:**
+```python
+import flume
+print(f"Running Flume {flume.version}")
+```
+
 ## flume.event
 
 Subscribe to IRC events.

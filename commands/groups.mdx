@@ -1,0 +1,78 @@
+---
+title: Buffer Groups
+description: "Pair channels together as a single buffer entry"
+---
+
+Buffer groups let you view two channels side by side as a single named entry in the buffer list. Useful when you want to monitor `#ops-east` and `#ops-west` together, or any pair of related channels.
+
+Groups are **per-server** — each group belongs to a specific server, so switching servers only shows that server's groups.
+
+## Creating a Group
+
+```
+/group create <name> [v|h] [ratio] <channel1> <channel2>
+```
+
+- **direction**: `v` (vertical, side-by-side, default) or `h` (horizontal, stacked)
+- **ratio**: pane width split, e.g. `50:50`, `30:70` (default `50:50`)
+- **channels**: must be 2 channels you've already joined
+
+```
+/group create ops v 50:50 #ops-east #ops-west
+/group create monitor h 30:70 #alerts #ops
+/group create watch #channel1 #channel2
+```
+
+After creating, the group appears in the buffer list as `[name]`. Selecting it activates the split view automatically.
+
+## Using a Group
+
+Once created, switch to a group like any buffer:
+
+```
+/go ops              # switch to the [ops] group
+Alt+<num>            # if [ops] is the Nth entry in the buffer list
+```
+
+Or click `[ops]` in the buffer list (with mouse enabled).
+
+While viewing a group:
+- **Both channels** show side by side
+- **Focus** determines which channel receives your input
+- `/focus` swaps the focused pane
+- **Mouse click** on the unfocused pane swaps focus
+- The **nick list** shows nicks for the focused channel
+
+Switching to any other buffer leaves the group view. Switching back re-opens it.
+
+## Listing Groups
+
+```
+/group list
+```
+
+Shows all groups for the active server.
+
+## Disbanding a Group
+
+```
+/group disband <name>
+```
+
+Removes the group. The member channels remain as individual buffers.
+
+## Persistence
+
+Groups are persisted via `/save` to `config.toml`:
+
+```toml
+[groups.ops]
+server = "efnet"
+channels = ["#ops-east", "#ops-west"]
+ratio = "50:50"
+direction = "vertical"
+```
+
+## ZNC / Bouncer Compatibility
+
+Groups display as `[name] ~` (dimmed) when their member channels haven't joined yet — for example, while ZNC is replaying channel state on startup. Once both channels exist as buffers, the group becomes selectable.

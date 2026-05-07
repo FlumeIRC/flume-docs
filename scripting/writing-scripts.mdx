@@ -5,6 +5,14 @@ description: "Complete guide to writing Flume scripts with practical examples"
 
 This guide walks you through writing scripts for Flume, from basic event handling to advanced patterns like custom commands with help text, persistent config, buffer management, and more.
 
+<Note>
+**Vault access**: Autoload scripts run *after* the vault is unlocked, so `flume.vault.get()` works at module load time. You can safely read secrets at the top level of your script.
+</Note>
+
+<Note>
+**Script errors**: Load failures and runtime errors are displayed as system messages in the flume buffer with full tracebacks — no need to check log files.
+</Note>
+
 ## Script Structure
 
 Every script follows the same pattern:

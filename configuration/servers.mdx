@@ -37,6 +37,7 @@ autojoin = ["#test"]
 | `address` | required | Server hostname |
 | `port` | `6697` | Port number |
 | `tls` | `true` | Use TLS encryption |
+| `tls_accept_invalid_certs` | `false` | Accept self-signed/invalid TLS certificates |
 | `password` | `""` | Server password (IRC PASS command, use `${secret}` for vault) |
 | `username` | from general | IRC username (appears in hostmask) |
 | `auth_method` | `"none"` | `"none"`, `"sasl"`, or `"nickserv"` |
@@ -72,3 +73,40 @@ Use `${secret_name}` syntax to reference secrets stored in the vault:
 ```
 
 The password is resolved from the vault at connect time — never stored in plain text in config files.
+
+## TLS Notes
+
+**IP addresses**: Flume supports connecting to servers by IP address (not just hostname) with TLS enabled.
+
+**Self-signed certificates**: For bouncers or private servers with self-signed certs, enable certificate acceptance:
+
+```
+/server add myznc 192.168.1.5 6697 -tls -insecure
+```
+
+Or for an existing server:
+
+```
+/server set myznc insecure true
+```
+
+In `irc.toml`:
+```toml
+[[network]]
+name = "myznc"
+address = "192.168.1.5"
+port = 6697
+tls = true
+tls_accept_invalid_certs = true
+```
+
+## Channel Types
+
+Flume supports all four IRC channel prefixes per RFC 2811:
+
+| Prefix | Type | Description |
+|--------|------|-------------|
+| `#` | Standard | Normal channels |
+| `&` | Local | Server-local channels |
+| `+` | Modeless | No channel modes |
+| `!` | Safe | Timestamped/safe channels |

@@ -25,6 +25,25 @@ Flume ships with five themes in `examples/themes/`:
 
 Copy them to your themes directory to use them.
 
+## Importing Themes
+
+Import color schemes from external sources (like [Omarchy themes](https://omarchythemes.com/themes)) with a single command:
+
+```
+/theme import https://github.com/OldJobobo/omarchy-miasma-theme
+```
+
+This fetches the `colors.toml` from the GitHub repo, maps the color palette to Flume's theme format, and generates both a solid and transparent (glass) variant:
+
+```
+Imported theme: omarchy-miasma-theme
+  Saved: omarchy-miasma-theme.toml
+  Saved: omarchy-miasma-theme-glass.toml
+Switching to imported theme...
+```
+
+Any GitHub repository with a `colors.toml` file containing the Omarchy format (accent, foreground, background, color0-15) is supported.
+
 ## Transparent Backgrounds
 
 Add `transparent = true` to a theme's `[meta]` section to make all backgrounds use the terminal's default (showing through to your wallpaper or background image):

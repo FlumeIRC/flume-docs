@@ -83,6 +83,38 @@ View or set the channel topic.
 
 Query detailed info about a user. Shows nick, user@host, realname, channels, server, idle time, and more.
 
+If a PM buffer exists for the nick, whois output appears in that buffer instead of the server buffer — useful when chatting with someone and wanting to check their info.
+
+### Auto-Whois on New PMs
+
+Enable automatic whois when someone PMs you for the first time:
+
+```
+/set general.auto_whois_on_pm true
+```
+
+When enabled, the first PM from an unknown nick triggers a `/whois` and displays the results in the new PM buffer. Off by default.
+
+## /oper
+
+```
+/oper <username> <password>
+```
+
+Authenticate as an IRC operator (requires a valid O:line on the server).
+
+## /ctcp
+
+CTCP requests and replies are displayed in the server buffer:
+
+```
+[ctcp] VERSION from alice
+[ctcp] PING reply from bob: 2s
+[ctcp] VERSION reply from alice: mIRC v7.72
+```
+
+PING replies show the round-trip latency instead of the raw timestamp.
+
 ## /quote
 
 ```

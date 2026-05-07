@@ -17,6 +17,7 @@ Add a network to your configuration.
 |------|-------------|
 | `-tls` | Enable TLS encryption |
 | `-notls` | Disable TLS (plain TCP) |
+| `-insecure` | Accept self-signed/invalid TLS certificates |
 | `-autoconnect` | Connect automatically on startup |
 | `-username <user>` | IRC username (appears in hostmask) |
 | `-password <pass>` | Server password (IRC PASS command) |
@@ -33,6 +34,9 @@ Add a network to your configuration.
 
 # Plain TCP, no TLS
 /server add efnet irc.efnet.org 6667 -notls
+
+# Bouncer with self-signed cert
+/server add myznc 192.168.1.5 6697 -tls -insecure -autoconnect
 
 # With custom nick
 /server add testnet irc.test.com 6697 -tls -nick testbot
@@ -69,6 +73,7 @@ Set a field on a network. Available fields:
 | `address` | `irc.libera.chat` | Server hostname |
 | `port` | `6697` | Port number |
 | `tls` | `true` | TLS on/off |
+| `insecure` | `true` | Accept self-signed/invalid TLS certs |
 | `password` | `${server_pass}` | Server password (PASS command) |
 | `username` | `myuser` | IRC username (hostmask) |
 | `nick` | `mynick` | Nick override |
